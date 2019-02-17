@@ -1,0 +1,45 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "better-react-spinkit": "^2.0.4",
+    "classnames": "^2.2.6",
+    "cross-env": "^5.2.0",
+    "immutable": "^4.0.0-rc.12",
+    "include-media": "^1.4.9",
+    "moment": "^2.24.0",
+    "node-sass": "^4.11.0",
+    "open-color": "^1.6.3",
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
+    "react-icons": "^3.4.0",
+    "react-loader-spinner": "^2.3.0",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "redux": "^4.0.1",
+    "redux-actions": "^2.6.4",
+    "redux-logger": "^3.0.6",
+    "redux-pender": "^2.0.12",
+    "sass-loader": "^7.1.0",
+    "styled-components": "^4.1.3"
+  },
+  "scripts": {
+    "start": "cross-env NODE_PATH=src react-scripts start",
+    "build": "cross-env NODE_PATH=src react-scripts build && mv build ../resources/static",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
