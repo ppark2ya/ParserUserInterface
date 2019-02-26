@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Root from './Root';
 import { Provider } from 'react-redux'
 import store from './store';
+import './default.css';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
