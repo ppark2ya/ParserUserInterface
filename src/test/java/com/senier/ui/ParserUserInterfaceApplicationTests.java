@@ -1,4 +1,4 @@
-package com.senier.u;
+package com.senier.ui;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
