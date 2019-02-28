@@ -8,11 +8,11 @@ class LoginContainer extends Component {
 
     handleKeyUp = (e) => {
         const { LoginActions } = this.props;
-        (e.target.name === 'id') ? LoginActions.setId(e.target.value) : LoginActions.setpw(e.target.value);
+        (e.target.name === 'id') ? LoginActions.setId(e.target.value) : LoginActions.setPw(e.target.value);
     }
 
     handleKeyPress = (e) => {
-        if(e.keyCode === 13) {
+        if(e.key === 'Enter') {
             this.handleClick();
         }
     }
@@ -30,7 +30,7 @@ class LoginContainer extends Component {
 
     render() {
         return (
-            <LoginTemplate onKeyPress={this.handleKeyPress} onClick={this.handleClick}/>
+            <LoginTemplate onKeyPress={this.handleKeyPress} onClick={this.handleClick} onKeyUp={this.handleKeyUp}/>
         );
     }
 }

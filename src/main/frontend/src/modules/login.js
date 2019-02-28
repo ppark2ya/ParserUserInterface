@@ -28,10 +28,10 @@ const initialState = Map({
 
 const reducer = handleActions({
     [SET_ID]: (state, action) => {
-        return state.set('id', action.payload)
+        return state.set('id', action.payload);
     },
     [SET_PW]: (state, action) => {
-        return state.set('pw', action.payload)
+        return state.set('pw', action.payload);
     },
 }, initialState);
 
