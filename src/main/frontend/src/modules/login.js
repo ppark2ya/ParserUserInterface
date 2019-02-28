@@ -1,10 +1,10 @@
 import { Map } from 'immutable';
 import { handleActions, createAction } from 'redux-actions';
-import { applyPenders } from 'redux-pender';
+import { pender } from 'redux-pender';
 import axios from 'axios';
 
 function getPostApi({id, pw}) {
-    return axios.post(`/loginProc`, {
+    return axios.post(`http://localhost/loginProc`, {
         id,
         pw,
     });
@@ -19,30 +19,27 @@ export const setPw = createAction(SET_PW);
 export const loginProc = createAction(LOGIN_PROC, getPostApi);
 
 const initialState = Map({
-    data: {
-        result: 'fail',
-    },
     id: '',
     pw: '',
 });
 
-const reducer = handleActions({
+export default handleActions({
     [SET_ID]: (state, action) => {
         return state.set('id', action.payload);
     },
     [SET_PW]: (state, action) => {
         return state.set('pw', action.payload);
     },
-}, initialState);
-
-export default applyPenders(reducer, [
-    {
+    ...pender({
         type: LOGIN_PROC,
-        onSuccess: (state, action) => {
+        onSuccess: (state, action) => { 
             const { result } = action.payload.data;
         },
-        onFailure: (state, action) => {
+        onFailure: (state, action) => { 
+            
+        },
+        onPending: (state, action) => {
 
         },
-    }
-]);
+    })
+}, initialState);

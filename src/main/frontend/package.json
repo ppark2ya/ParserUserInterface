@@ -2,7 +2,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost",
   "dependencies": {
     "axios": "^0.18.0",
     "better-react-spinkit": "^2.0.4",

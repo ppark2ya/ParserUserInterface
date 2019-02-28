@@ -37,12 +37,12 @@ const Alert = styled.span`
     font-size: 1rem;
 `;
 
-const LoginTemplate = ({ onKeyPress, onClick, onKeyUp }) => {
+const LoginTemplate = ({ onKeyPress, onClick, onChange }) => {
     return (
         <Wrapper>
             <Container>
                 <MainTitle>Message Priority</MainTitle>
-                <LoginBox onKeyPress={onKeyPress} onClick={onClick} onKeyUp={onKeyUp}></LoginBox>
+                <LoginBox onKeyPress={onKeyPress} onClick={onClick} onChange={onChange}></LoginBox>
             </Container>
             <Footer>
                 <Row>

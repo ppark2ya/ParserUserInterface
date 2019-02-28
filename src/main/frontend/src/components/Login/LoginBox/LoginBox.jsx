@@ -22,12 +22,12 @@ const FlexCol = styled.div`
     width: 80%;
 `;
 
-const LoginBox = ({ onKeyPress, onClick, onKeyUp }) => {
+const LoginBox = ({ onKeyPress, onClick, onChange }) => {
     return (
         <Wrapper>
             <Area>
                 <FlexCol>
-                    <LoginInput onKeyPress={onKeyPress} onKeyUp={onKeyUp}/>
+                    <LoginInput onKeyPress={onKeyPress} onChange={onChange}/>
                 </FlexCol>
                 <LoginButton onClick={onClick}/>
             </Area>

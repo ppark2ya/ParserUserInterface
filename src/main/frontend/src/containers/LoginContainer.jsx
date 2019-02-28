@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import * as loginActions from '../modules/login';
 import LoginTemplate from '../components/Login/LoginTemplate';
 
 class LoginContainer extends Component {
 
-    handleKeyUp = (e) => {
+    handleChange = (e) => {
+        const { name, value } = e.target;
         const { LoginActions } = this.props;
-        (e.target.name === 'id') ? LoginActions.setId(e.target.value) : LoginActions.setPw(e.target.value);
+        (name === 'id') ? LoginActions.setId(value) : LoginActions.setPw(value);
     }
 
     handleKeyPress = (e) => {
@@ -29,16 +30,17 @@ class LoginContainer extends Component {
     }
 
     render() {
+        const { handleKeyPress, handleClick, handleChange} = this;
         return (
-            <LoginTemplate onKeyPress={this.handleKeyPress} onClick={this.handleClick} onKeyUp={this.handleKeyUp}/>
+            <LoginTemplate onKeyPress={handleKeyPress} onClick={handleClick} onChange={handleChange}/>
         );
     }
 }
 
 export default connect(
     (state) => ({
-        id: state.id,
-        pw: state.pw,
+        id: state.login.get('id'),
+        pw: state.login.get('pw'),
         //result: state.data.result,
     }),
     (dispatch) => ({
