@@ -1,6 +1,7 @@
 package com.senier.ui.web;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import com.senier.ui.model.DataModel;
 import com.senier.ui.service.LoginService;
@@ -22,9 +23,9 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/loginProc")
-    public DataModel loginProc(@RequestBody DataModel dm) {
+    public DataModel loginProc(@RequestBody DataModel dm, HttpSession session) {
         logger.info("loginProc Params - {}", dm);
-        DataModel resultMap = loginService.loginProc(dm);
+        DataModel resultMap = loginService.loginProc(dm, session);
         logger.info("loginProc Result - {}", resultMap);
 
         return resultMap;

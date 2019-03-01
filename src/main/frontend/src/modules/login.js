@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import produce from 'immer';
 import { handleActions, createAction } from 'redux-actions';
 import { pender } from 'redux-pender';
 import axios from 'axios';
@@ -18,28 +18,43 @@ export const setId = createAction(SET_ID);
 export const setPw = createAction(SET_PW);
 export const loginProc = createAction(LOGIN_PROC, getPostApi);
 
-const initialState = Map({
+const initialState = {
     id: '',
     pw: '',
-});
+    data: {
+        result: 'FAIL'
+    },
+    error: null,
+};
 
 export default handleActions({
-    [SET_ID]: (state, action) => {
-        return state.set('id', action.payload);
+    [SET_ID]: (state, { payload }) => {
+        return produce(state, draft => {
+            draft.id = payload;
+        })
     },
-    [SET_PW]: (state, action) => {
-        return state.set('pw', action.payload);
+    [SET_PW]: (state, { payload }) => {
+        return produce(state, draft => {
+            draft.pw = payload;
+        });
     },
     ...pender({
         type: LOGIN_PROC,
-        onSuccess: (state, action) => { 
-            const { result } = action.payload.data;
-        },
-        onFailure: (state, action) => { 
-            
-        },
-        onPending: (state, action) => {
+        onSuccess: (state, { payload: { data } }) => { 
+            const { result } = data;
 
+            return produce(state, draft => {
+                if(result === "FAIL") {
+                    draft.id = '';
+                    draft.pw = '';
+                }
+                draft.data.result = result;
+            });
+        },
+        onFailure: (state, { payload: { response } }) => { 
+            return produce(state, (draft) => {
+                draft.error = response.data;
+            });
         },
     })
 }, initialState);

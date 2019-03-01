@@ -19,14 +19,32 @@ class LoginContainer extends Component {
     }
 
     handleClick = async () => {
-        const { LoginActions, id, pw } = this.props;
+        const { LoginActions, id, pw, history } = this.props;
         try {
-            const p = LoginActions.loginProc({id, pw});
-            const result = await p;
-            console.log(result);
+            const response = await LoginActions.loginProc({id, pw});
+            const { result, uid, auth, expired } = response.data;
+
+            if(result === "SUCCESS") {
+                sessionStorage.uid = uid;
+                sessionStorage.auth = auth;
+                sessionStorage.expired = expired;
+                history.push('/main');
+            } else {
+                alert('아이디와 패스워드를 확인해주세요');
+                this.setClearForm();
+                sessionStorage.clear();
+            }
         } catch(e) {
-            console.log(e);
+            console.error(e);
         }
+    }
+
+    setClearForm = () => {
+        let { id, pw } = document.getElementsByTagName('input');
+        id.value = '';
+        pw.value = '';
+
+        id.focus();
     }
 
     render() {
@@ -39,9 +57,9 @@ class LoginContainer extends Component {
 
 export default connect(
     (state) => ({
-        id: state.login.get('id'),
-        pw: state.login.get('pw'),
-        //result: state.data.result,
+        id: state.login.id,
+        pw: state.login.pw,
+        result: state.login.data.result
     }),
     (dispatch) => ({
         LoginActions: bindActionCreators(loginActions, dispatch),

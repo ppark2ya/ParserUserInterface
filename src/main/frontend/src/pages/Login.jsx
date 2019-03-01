@@ -1,9 +1,9 @@
 import React from 'react';
 import LoginContainer from '../containers/LoginContainer';
 
-const Login = () => {
+const Login = ({ history }) => {
     return (
-        <LoginContainer/>
+        <LoginContainer history={history}/>
     );
 };
 
