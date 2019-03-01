@@ -9,12 +9,10 @@ import com.senier.ui.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@CrossOrigin("*")
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -22,7 +20,7 @@ public class LoginController {
     @Resource(name = "LoginService")
     private LoginService loginService;
 
-    @PostMapping("/loginProc")
+    @PostMapping("/auth/loginProc")
     public DataModel loginProc(@RequestBody DataModel dm, HttpSession session) {
         logger.info("loginProc Params - {}", dm);
         DataModel resultMap = loginService.loginProc(dm, session);

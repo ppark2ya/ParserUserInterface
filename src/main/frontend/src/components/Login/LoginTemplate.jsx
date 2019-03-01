@@ -2,13 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import LoginBox from './LoginBox';
 
-const Wrapper = styled.section`
-    background-image: url(https://cdn.ppomppu.co.kr/zboard/data3/2018/0903/20180903000708_lphnknbp.jpg);
-    background-repeat: no-repeat;
-    background-size: 100%;
-    height: 936px;
-`;
-
 const Container = styled.div`
     padding: 2em;
 `;
@@ -39,7 +32,7 @@ const Alert = styled.span`
 
 const LoginTemplate = ({ onKeyPress, onClick, onChange }) => {
     return (
-        <Wrapper>
+        <section>
             <Container>
                 <MainTitle>Message Priority</MainTitle>
                 <LoginBox onKeyPress={onKeyPress} onClick={onClick} onChange={onChange}></LoginBox>
@@ -49,7 +42,7 @@ const LoginTemplate = ({ onKeyPress, onClick, onChange }) => {
                     <Alert>이 시스템은 권한이 허락된 사용자만이 접근할 수 있습니다.</Alert>
                 </Row>
             </Footer>
-        </Wrapper>
+        </section>
     );
 };
 

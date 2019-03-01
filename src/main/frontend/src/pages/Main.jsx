@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import withCheckAuth from '../lib/withCheckAuth';
 
-class Main extends Component {
-    render() {
-        return (
-            <div>
-                홈
-            </div>
-        );
-    }
-}
+const Main = () => {
+    return (
+        <div>메인화면</div>
+    );
+};
 
-export default Main;
+export default withCheckAuth(Main);

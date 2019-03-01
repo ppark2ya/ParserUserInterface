@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import { Login, Main } from 'pages';
+import { Switch, Route } from 'react-router-dom';
+import { Login, Main, NotFound } from 'pages';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route exact path="/" component={Login}/>
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/main" component={Main}/>
+        <Switch>
+          <Route exact path="/" component={Login}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/main" component={Main}/>
+          <Route component={NotFound}/>
+        </Switch>
       </div>
     );
   }

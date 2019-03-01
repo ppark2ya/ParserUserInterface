@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as loginActions from '../modules/login';
 import LoginTemplate from '../components/Login/LoginTemplate';
 
 class LoginContainer extends Component {
+
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        pw: PropTypes.string.isRequired,
+        result: PropTypes.string,
+        LoginActions: PropTypes.object.isRequired,
+    }
 
     handleChange = (e) => {
         const { name, value } = e.target;

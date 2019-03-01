@@ -1,14 +1,7 @@
 import produce from 'immer';
 import { handleActions, createAction } from 'redux-actions';
 import { pender } from 'redux-pender';
-import axios from 'axios';
-
-function getPostApi({id, pw}) {
-    return axios.post(`http://localhost/loginProc`, {
-        id,
-        pw,
-    });
-}
+import { loginProcApi } from '../lib/api/login';
 
 const SET_ID = 'login/SET_ID';
 const SET_PW = 'login/SET_PW';
@@ -16,7 +9,7 @@ const LOGIN_PROC = 'login/LOGIN_PROC';
 
 export const setId = createAction(SET_ID);
 export const setPw = createAction(SET_PW);
-export const loginProc = createAction(LOGIN_PROC, getPostApi);
+export const loginProc = createAction(LOGIN_PROC, loginProcApi);
 
 const initialState = {
     id: '',
@@ -24,7 +17,6 @@ const initialState = {
     data: {
         result: 'FAIL'
     },
-    error: null,
 };
 
 export default handleActions({
@@ -52,9 +44,7 @@ export default handleActions({
             });
         },
         onFailure: (state, { payload: { response } }) => { 
-            return produce(state, (draft) => {
-                draft.error = response.data;
-            });
+            alert('서버 에러! 관리자에게 문의하세요');
         },
     })
 }, initialState);
