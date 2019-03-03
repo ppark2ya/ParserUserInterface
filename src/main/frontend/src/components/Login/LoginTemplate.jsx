@@ -4,6 +4,9 @@ import LoginBox from './LoginBox';
 
 const Container = styled.div`
     padding: 2em;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 `;
 
 const MainTitle = styled.span`
