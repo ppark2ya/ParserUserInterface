@@ -9,6 +9,7 @@ const Container = styled.div`
 
 const Main = styled.section`
     display: flex;
+    flex-direction: column;
     height: 80%;
     background-color: #fff;
 `;

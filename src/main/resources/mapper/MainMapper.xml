@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.senier.ui.persistence.MainMapper">
+    <select id="getHomeDashboard" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
+        SELECT 
+            SERVICE_CD as serviceCd,
+            SEND_DT as sendDt,
+            COUNT(*) as cnt
+        FROM TB_SMS_SEND_HISTORY
+        GROUP BY SERVICE_CD, SEND_DT;
+    </select>
+
+</mapper>

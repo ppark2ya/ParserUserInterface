@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { handleActions, createAction } from 'redux-actions';
 import { pender } from 'redux-pender';
-import { loginProcApi } from '../lib/api/login';
+import { loginProcApi } from '../lib/api';
 
 const SET_ID = 'login/SET_ID';
 const SET_PW = 'login/SET_PW';
