@@ -41,6 +41,8 @@ public class MainServiceImpl implements MainService {
 
             // 유저의 권한을 체크한다.
             DataModel userAuth = mainMapper.getUserAuthentication(params);
+
+            String[] monitorServices = userAuth.getStrNull("description").replaceAll("(ADMIN/|GUEST/)", "").split("/");
             List<DataModel> chartData = mainMapper.getHomeDashboard(params);
 
             if(!chartData.isEmpty()) {
