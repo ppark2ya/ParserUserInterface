@@ -7,6 +7,7 @@ import com.senier.ui.service.MainService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +41,19 @@ public class MainServiceImpl implements MainService {
 
             // 유저의 권한을 체크한다.
             DataModel userAuth = mainMapper.getUserAuthentication(params);
-            resultMap.putAll(mainMapper.getHomeDashboard(params));
+            List<DataModel> chartData = mainMapper.getHomeDashboard(params);
+
+            if(!chartData.isEmpty()) {
+                resultMap.put("chartData", chartData);
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+            } else {
+                logger.info("데이터 없음 !!");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+            }
+            logger.info("HOME DASHBOARD 결과 - {}", resultMap);
         } catch(Exception e) {
-            // logger.error("로그인 에러 발생 - {}" , e.getMessage());
-            // resultMap.putStrNull("result", CommonConstant.FAIL);
+            logger.error("HOME DASHBOARD 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
         }
 
         return resultMap;

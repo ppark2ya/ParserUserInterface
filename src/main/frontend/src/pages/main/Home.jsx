@@ -19,6 +19,7 @@ class Home extends Component {
     componentDidMount = async () => {
         const { uid, auth } = sessionStorage;
         let response = await getHomeDashboard({uid, auth});
+        console.info(response);
     }
 
     render() {

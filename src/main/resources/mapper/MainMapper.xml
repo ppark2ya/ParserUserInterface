@@ -64,7 +64,7 @@
             5 as week
         FROM TB_SMS_SEND_HISTORY A
         JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
-        WHERE A.SEND_DT BETWEEN #{date}+28 AND #{date}+31
+        WHERE A.SEND_DT BETWEEN #{date}+28 AND #{date}+30
         GROUP BY SERVICE_CD
     </select>
 
