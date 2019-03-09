@@ -1,32 +1,35 @@
 import React, { Component, Fragment } from 'react';
 import { Title, Dashboard } from '../../components/Main/Home/';
-import PropTypes from 'prop-types';
 import { getHomeDashboard } from '../../lib/api';
 
 class Home extends Component {
-    static defaultProps = {
-
-    }
-
-    static propTypes = {
-        // id: PropTypes.string.isRequired,
-    }
-
     state = {
-
+        chartData: []
     }
 
     componentDidMount = async () => {
         const { uid, auth } = sessionStorage;
-        let response = await getHomeDashboard({uid, auth});
-        console.info(response);
+        try{
+            const response = await getHomeDashboard({uid, auth});
+            const { result, chartData } = response.data;
+    
+            if(result === "SUCCESS") {
+                this.setState({
+                    chartData: [...chartData]
+                })
+            } else {
+                console.error("서버에러");
+            }
+        } catch(e) {
+            console.error(e);
+        }
     }
 
     render() {
         return (
             <Fragment>
                 <Title/>
-                <Dashboard/>
+                <Dashboard chartData={this.state.chartData}/>
             </Fragment>
         );
     }

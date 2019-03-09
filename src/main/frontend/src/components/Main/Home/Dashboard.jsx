@@ -1,21 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-const data = [
-    {
-      name: 'Page A', uv: 4000, pv: 2400,
-    },
-    {
-      name: 'Page B', uv: 3000, pv: 1398,
-    },
-    {
-      name: 'Page C', uv: 2000, pv: 9800,
-    },
-    {
-      name: 'Page D', uv: 2780, pv: 3908,
-    },
-  ];
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart  } from 'recharts';
 
 const ChartContainer = styled.div`
     width: 95%;
@@ -23,26 +8,28 @@ const ChartContainer = styled.div`
     margin: auto;
 `;
 
-const Dashboard = () => {
+const Dashboard = ({chartData}) => {
     return (
-        <ChartContainer>
-            <ResponsiveContainer width='100%' height='100%'>
-                <LineChart
-                    data={data}
-                    margin={{
-                        top: 5, right: 30, left: 20, bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                </LineChart>
-            </ResponsiveContainer>
-        </ChartContainer>
+      <ChartContainer>
+          <ResponsiveContainer width='100%' height='100%'>
+              <ComposedChart 
+                  data={chartData}
+                  margin={{
+                      top: 5, right: 30, left: 20, bottom: 5,
+                  }}
+              >
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="week" tickMargin={10}/>
+                  <YAxis axisLine={false} tickLine={false}/>
+                  <Tooltip />
+                  <Legend iconType="rect" height={100}/>
+                  <Line type="linear" dataKey="data.ZABBIX" name="자빅스" stroke="#cecece" strokeWidth="7" activeDot={{ r: 5 }} animationDuration={0}/>
+                  <Line type="linear" dataKey="data.POSTMAN" name="포스트맨" stroke="#ffcc00" strokeWidth="7" activeDot={{ r: 5 }} animationDuration={0}/>
+                  <Line type="linear" dataKey="data.SEFILCARE" name="세필케어" stroke="#ff6600" strokeWidth="7" activeDot={{ r: 5 }} animationDuration={0}/>
+                  <Line type="linear" dataKey="data.CHECKSERVER" name="체크서버" stroke="#008ae6" strokeWidth="7" activeDot={{ r: 5 }} animationDuration={0}/>
+              </ComposedChart >
+          </ResponsiveContainer>
+      </ChartContainer>
     );
 };
 

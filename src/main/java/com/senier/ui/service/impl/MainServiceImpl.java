@@ -6,7 +6,9 @@ import com.senier.ui.persistence.MainMapper;
 import com.senier.ui.service.MainService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -43,9 +45,50 @@ public class MainServiceImpl implements MainService {
             DataModel userAuth = mainMapper.getUserAuthentication(params);
 
             String[] monitorServices = userAuth.getStrNull("description").replaceAll("(ADMIN/|GUEST/)", "").split("/");
-            List<DataModel> chartData = mainMapper.getHomeDashboard(params);
+            int monitorServicesLen = monitorServices.length;
 
-            if(!chartData.isEmpty()) {
+            for(String serviceNm : monitorServices) {
+                if(serviceNm.equals("ZABBIX")) {
+                    params.putStrNull(serviceNm, CommonConstant.ZABBIX_CODE);
+                } else if(serviceNm.equals("POSTMAN")) {
+                    params.putStrNull(serviceNm, CommonConstant.POSTMAN_CODE);
+                } else if(serviceNm.equals("SEFILCARE")) {
+                    params.putStrNull(serviceNm, CommonConstant.SEFILCARE_CODE);
+                } else if(serviceNm.equals("CHECK_SERVER")) {
+                    params.putStrNull(serviceNm, CommonConstant.CHECKSERVER_CODE);
+                } 
+            }
+
+            Iterator<DataModel> cdataLst = mainMapper.getHomeDashboard(params).iterator();
+            if(cdataLst.hasNext()) {
+                List<DataModel> chartData = new ArrayList<>();
+                DataModel renewData = new DataModel();
+                DataModel serviceModel = new DataModel();
+                
+                int idx = 0;
+                while(cdataLst.hasNext()) {
+                    DataModel cdata = cdataLst.next();
+                    
+                    if(idx % monitorServicesLen == 0) {
+                        renewData.putStrNull("week", cdata.getStrNull("week") + "주차");
+                    }
+
+                    String serviceCd = cdata.getStrNull("serviceCd");
+                    String serviceNm = serviceCd.equals(CommonConstant.ZABBIX_CODE)? "ZABBIX"
+                                        : serviceCd.equals(CommonConstant.POSTMAN_CODE)? "POSTMAN"
+                                        : serviceCd.equals(CommonConstant.SEFILCARE_CODE)? "SEFILCARE"
+                                        : serviceCd.equals(CommonConstant.CHECKSERVER_CODE)? "CHECKSERVER" : "NOT EXIST";
+                    serviceModel.put(serviceNm, cdata.get("cnt"));
+                    
+                    if((idx + 1) % monitorServicesLen == 0) {
+                        renewData.put("data", serviceModel);
+                        chartData.add(renewData);
+                        renewData = new DataModel();
+                        serviceModel = new DataModel();
+                    }
+                    idx++;
+                }
+
                 resultMap.put("chartData", chartData);
                 resultMap.putStrNull("result", CommonConstant.SUCCESS);
             } else {

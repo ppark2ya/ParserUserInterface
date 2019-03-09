@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.senier.ui.persistence.MainMapper">
+
     <select id="getUserAuthentication" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
         SELECT
             u.UID as "uid",
@@ -14,58 +15,103 @@
     </select>
 
     <select id="getHomeDashboard" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
-        SELECT 
-            SERVICE_CD as serviceCd,
-            SUM(A.SUCCESS_FLG) as cnt,
-            1 as week
-        FROM TB_SMS_SEND_HISTORY A
-        JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
-        WHERE A.SEND_DT BETWEEN #{date} AND #{date}+6
-        GROUP BY SERVICE_CD
+        SELECT *
+        FROM(
+            SELECT *
+            FROM (
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    SUM(A.SUCCESS_FLG) as cnt,
+                    1 as week
+                FROM TB_SMS_SEND_HISTORY A
+                JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
+                WHERE A.SEND_DT BETWEEN #{date} AND #{date}+7 AND B.USE_CL = '1'
+                GROUP BY SERVICE_CD
 
-        UNION ALL
+                UNION ALL 
 
-        SELECT 
-            SERVICE_CD as serviceCd,
-            SUM(A.SUCCESS_FLG) as cnt,
-            2 as week
-        FROM TB_SMS_SEND_HISTORY A
-        JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
-        WHERE A.SEND_DT BETWEEN #{date}+7 AND #{date}+13
-        GROUP BY SERVICE_CD
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    0 as cnt,
+                    1 as week
+                FROM TB_LISTENING_SERVERS
+                WHERE USE_CL = '1'
+            ) TBL
+            GROUP BY serviceCd
 
-        UNION ALL
+            UNION ALL
 
-        SELECT 
-            SERVICE_CD as serviceCd,
-            SUM(A.SUCCESS_FLG) as cnt,
-            3 as week
-        FROM TB_SMS_SEND_HISTORY A
-        JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
-        WHERE A.SEND_DT BETWEEN #{date}+14 AND #{date}+20
-        GROUP BY SERVICE_CD
+            SELECT *
+            FROM (
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    SUM(A.SUCCESS_FLG) as cnt,
+                    2 as week
+                FROM TB_SMS_SEND_HISTORY A
+                JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
+                WHERE A.SEND_DT BETWEEN #{date}+8 AND #{date}+15 AND B.USE_CL = '1'
+                GROUP BY SERVICE_CD
 
-        UNION ALL
+                UNION ALL 
 
-        SELECT 
-            SERVICE_CD as serviceCd,
-            SUM(A.SUCCESS_FLG) as cnt,
-            4 as week
-        FROM TB_SMS_SEND_HISTORY A
-        JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
-        WHERE A.SEND_DT BETWEEN #{date}+21 AND #{date}+27
-        GROUP BY SERVICE_CD
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    0 as cnt,
+                    2 as week
+                FROM TB_LISTENING_SERVERS
+                WHERE USE_CL = '1'
+            ) TBL
+            GROUP BY serviceCd
 
-        UNION ALL
+            UNION ALL
 
-        SELECT 
-            SERVICE_CD as serviceCd,
-            SUM(A.SUCCESS_FLG) as cnt,
-            5 as week
-        FROM TB_SMS_SEND_HISTORY A
-        JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
-        WHERE A.SEND_DT BETWEEN #{date}+28 AND #{date}+30
-        GROUP BY SERVICE_CD
+            SELECT *
+            FROM (
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    SUM(A.SUCCESS_FLG) as cnt,
+                    3 as week
+                FROM TB_SMS_SEND_HISTORY A
+                JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
+                WHERE A.SEND_DT BETWEEN #{date}+16 AND #{date}+23 AND B.USE_CL = '1'
+                GROUP BY SERVICE_CD
+
+                UNION ALL 
+
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    0 as cnt,
+                    3 as week
+                FROM TB_LISTENING_SERVERS
+                WHERE USE_CL = '1'
+            ) TBL
+            GROUP BY serviceCd
+
+            UNION ALL
+
+            SELECT *
+            FROM (
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    SUM(A.SUCCESS_FLG) as cnt,
+                    4 as week
+                FROM TB_SMS_SEND_HISTORY A
+                JOIN TB_LISTENING_SERVERS B USING(SERVICE_CD)
+                WHERE A.SEND_DT BETWEEN #{date}+24 AND #{date}+30 AND B.USE_CL = '1'
+                GROUP BY SERVICE_CD
+
+                UNION ALL 
+
+                SELECT 
+                    SERVICE_CD as serviceCd,
+                    0 as cnt,
+                    4 as week
+                FROM TB_LISTENING_SERVERS
+                WHERE USE_CL = '1'
+            ) TBL
+            GROUP BY serviceCd
+        ) RSLT
+        WHERE serviceCd IN (#{ZABBIX}, #{POSTMAN}, #{SEFILCARE}, #{CHECK_SERVER})
     </select>
 
 </mapper>
