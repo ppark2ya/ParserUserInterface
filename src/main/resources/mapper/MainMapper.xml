@@ -130,7 +130,7 @@
             SELECT TRIM(REGEXP_REPLACE(LOG_TYPE, '[a-zA-Z]', '')) as LOG_TYPE, COUNT(*) as cnt
             FROM TB_LOG_HISTORY L
             JOIN TB_LISTENING_SERVERS S USING(SERVICE_CD)
-            WHERE S.USE_CL='1' AND L.SERVICE_CD='03'
+            WHERE S.USE_CL='1' AND L.SERVICE_CD='03' AND L.LOG_PRIORITY = 'CRITICAL'
             GROUP BY LOG_TYPE
         ) RSLT
     </select>
@@ -143,5 +143,10 @@
     <select id="getZabbixGraph" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
         SELECT *
         FROM TB_LISTENING_SERVERS
+    </select>
+
+    <select id="getLogStats" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
+        SELECT *
+        FROM TB_LOG_HISTORY
     </select>
 </mapper>

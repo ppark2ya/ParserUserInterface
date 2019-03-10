@@ -26,3 +26,7 @@ export const getSefilCareGraph = ({uid, auth}) => {
 export const getZabbixGraph = ({uid, auth}) => {
     return axios.get(`/graph/zabbix`, { params: {uid, auth} });
 }
+
+export const getLogStats = (selOptions) => {
+    return axios.post(`/stats/log`, selOptions);
+}

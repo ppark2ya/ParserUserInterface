@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
+import { Title } from '../../components/Main/Home/';
+import StatisticsContainer from '../../containers/StatisticsContainer';
 
-class Statistics extends Component {
-    render() {
-        return (
-            <div>
-                STATS
-            </div>
-        );
-    }
-}
+const Statistics = () => {
+    return (
+        <Fragment>
+            <Title>도착한 메시지 전체 로그</Title>
+            <StatisticsContainer />
+        </Fragment>
+    );
+};
 
 export default Statistics;

@@ -6,6 +6,8 @@ import com.senier.ui.model.DataModel;
 import com.senier.ui.service.MainService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +38,7 @@ public class MainController {
      * GRAPH 탭 MAIN 차트 데이터 요청
      * @param uid : 로그인 유저 아이디
      * @param auth : 권한 코드값
-     * @return DataModel : 한 달간 각 서비스별 메시지 발신 횟수
+     * @return DataModel : 일별/주간별/월별 + 서비스별 CRITICAL 발생 빈도수, 하룻동안의 LOG_PRIORITY 상태 표시 ( CRITICAL, NORMAL )
      */
     @GetMapping("/graph/synthesis")
     public DataModel getSynthesisGraph(
@@ -53,7 +55,7 @@ public class MainController {
      * GRAPH 탭 체크서버 차트 데이터 요청
      * @param uid : 로그인 유저 아이디
      * @param auth : 권한 코드값
-     * @return DataModel : 한 달간 각 서비스별 메시지 발신 횟수
+     * @return DataModel : 체크서버 전체 CRITICAL 상태 HTTP CODE
      */
     @GetMapping("/graph/checkserver")
     public DataModel getCheckServerGraph(
@@ -70,7 +72,7 @@ public class MainController {
      * GRAPH 탭 SefilCare 차트 데이터 요청
      * @param uid : 로그인 유저 아이디
      * @param auth : 권한 코드값
-     * @return DataModel : 한 달간 각 서비스별 메시지 발신 횟수
+     * @return DataModel : 
      */
     @GetMapping("/graph/sefilcare")
     public DataModel getSefilCareGraph(
@@ -87,7 +89,7 @@ public class MainController {
      * GRAPH 탭 ZABBIX 차트 데이터 요청
      * @param uid : 로그인 유저 아이디
      * @param auth : 권한 코드값
-     * @return DataModel : 한 달간 각 서비스별 메시지 발신 횟수
+     * @return DataModel : 
      */
     @GetMapping("/graph/zabbix")
     public DataModel getZabbixGraph(
@@ -100,5 +102,14 @@ public class MainController {
         return mainService.getZabbixGraph(params);
     }
 
-
+/**
+     * Statistics 탭 Log 데이터 요청
+     * @param uid : 로그인 유저 아이디
+     * @param auth : 권한 코드값
+     * @return DataModel : 조회옵션에 따른 로그데이터 출력
+     */
+    @PostMapping("/stats/log")
+    public DataModel getLogStats(@RequestBody DataModel params) {
+        return mainService.getZabbixGraph(params);
+    }
 }

@@ -201,4 +201,9 @@ public class MainServiceImpl implements MainService {
             } 
         }
     }
+
+    @Override
+    public DataModel getLogStats(DataModel params) {
+        return params;
+    }
 }

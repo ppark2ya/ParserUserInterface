@@ -17,11 +17,10 @@ const Text = styled.span`
     font-size: 1.5rem;
 `;
 
-const Title = () => {
-    const { uid, auth } = sessionStorage;
+const Title = ({children}) => {
     return (
         <StyledTitle>
-            <Text>{uid}님 환영합니다! 귀하의 권한은 Level{auth}입니다.</Text>
+            <Text>{children}</Text>
         </StyledTitle>
     );
 };

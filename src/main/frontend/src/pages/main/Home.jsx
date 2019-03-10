@@ -28,9 +28,10 @@ class Home extends Component {
     }
 
     render() {
+        const { uid, auth } = sessionStorage;
         return (
             <Fragment>
-                <Title/>
+                <Title>{uid}님 환영합니다! 귀하의 권한은 Level{auth}입니다.</Title>
                 <Dashboard chartData={this.state.chartData}/>
             </Fragment>
         );

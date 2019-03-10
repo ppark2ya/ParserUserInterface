@@ -57,7 +57,6 @@ class CheckServer extends Component {
             const { result, chartData, message } = response.data;
     
             if(result === "SUCCESS") {
-                console.log(chartData);
                 const [ labels, data ] = [ Object.keys(chartData), Object.values(chartData) ];
                 
                 this.setState(
