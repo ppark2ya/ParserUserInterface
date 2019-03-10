@@ -28,36 +28,8 @@ public class MainServiceImpl implements MainService {
     public DataModel getHomeDashboard(DataModel params) {
         DataModel resultMap = new DataModel();
         try {
-            // 0: yyyy, 1: mm
-            String[] yyyymm = new SimpleDateFormat("yyyy/MM").format(new Date()).split("/");
-            String date;
-            // 전달 1달간의 데이터를 얻기위해 연월날짜를 세팅한다
-            if(Integer.parseInt(yyyymm[1]) <= 1) {
-                date = String.valueOf(Integer.parseInt(yyyymm[0]) - 1) + "1201";
-            } else {
-                int exMon = Integer.parseInt(yyyymm[1]) - 1;
-                String month = (exMon >= 10) ? String.valueOf(exMon) : "0" + String.valueOf(exMon);
-                date = yyyymm[0] + month + "01";
-            }
-            params.putStrNull("date", date);
-
             // 유저의 권한을 체크한다.
-            DataModel userAuth = mainMapper.getUserAuthentication(params);
-
-            String[] monitorServices = userAuth.getStrNull("description").replaceAll("(ADMIN/|GUEST/)", "").split("/");
-            int monitorServicesLen = monitorServices.length;
-
-            for(String serviceNm : monitorServices) {
-                if(serviceNm.equals("ZABBIX")) {
-                    params.putStrNull(serviceNm, CommonConstant.ZABBIX_CODE);
-                } else if(serviceNm.equals("POSTMAN")) {
-                    params.putStrNull(serviceNm, CommonConstant.POSTMAN_CODE);
-                } else if(serviceNm.equals("SEFILCARE")) {
-                    params.putStrNull(serviceNm, CommonConstant.SEFILCARE_CODE);
-                } else if(serviceNm.equals("CHECK_SERVER")) {
-                    params.putStrNull(serviceNm, CommonConstant.CHECKSERVER_CODE);
-                } 
-            }
+            getUserAuth(params);
 
             Iterator<DataModel> cdataLst = mainMapper.getHomeDashboard(params).iterator();
             if(cdataLst.hasNext()) {
@@ -69,7 +41,7 @@ public class MainServiceImpl implements MainService {
                 while(cdataLst.hasNext()) {
                     DataModel cdata = cdataLst.next();
                     
-                    if(idx % monitorServicesLen == 0) {
+                    if(idx % params.getInteger("monitorServicesLen") == 0) {
                         renewData.putStrNull("week", cdata.getStrNull("week") + "주차");
                     }
 
@@ -80,7 +52,7 @@ public class MainServiceImpl implements MainService {
                                         : serviceCd.equals(CommonConstant.CHECKSERVER_CODE)? "CHECKSERVER" : "NOT EXIST";
                     serviceModel.put(serviceNm, cdata.get("cnt"));
                     
-                    if((idx + 1) % monitorServicesLen == 0) {
+                    if((idx + 1) % params.getInteger("monitorServicesLen") == 0) {
                         renewData.put("data", serviceModel);
                         chartData.add(renewData);
                         renewData = new DataModel();
@@ -93,14 +65,140 @@ public class MainServiceImpl implements MainService {
                 resultMap.putStrNull("result", CommonConstant.SUCCESS);
             } else {
                 logger.info("데이터 없음 !!");
+                String message = "데이터가 없습니다.";
                 resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
             }
             logger.info("HOME DASHBOARD 결과 - {}", resultMap);
         } catch(Exception e) {
             logger.error("HOME DASHBOARD 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
             resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
         }
 
         return resultMap;
+    }
+
+    @Override
+    public DataModel getSynthesisGraph(DataModel params) {
+        DataModel resultMap = new DataModel();
+        try {
+            // 유저의 권한을 체크한다.
+            getUserAuth(params);
+            resultMap.putStrNull("result", CommonConstant.SUCCESS);
+        } catch(Exception e) {
+            logger.error("GRAPH MAIN 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel getCheckServerGraph(DataModel params) {
+        DataModel resultMap = new DataModel();
+        try {
+            // 유저의 권한을 체크한다.
+            getUserAuth(params);
+            if(params.getStrNull("CHECK_SERVER") == null) {
+                String message = "해당 사용자는 권한이 없습니다.";
+                logger.error("GRAPH CHECKSERVER - {}", message);
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+                return resultMap;
+            }
+            Iterator<DataModel> cdataLst = mainMapper.getCheckServerGraph(params).iterator();
+
+            if(cdataLst.hasNext()) {
+                DataModel chartData = new DataModel();
+                
+                while(cdataLst.hasNext()) {
+                    DataModel cdata = cdataLst.next();
+                    chartData.put(cdata.getStrNull("logType"), cdata.get("cnt"));
+                }
+
+                resultMap.put("chartData", chartData);
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+            } else {
+                logger.info("데이터 없음 !!");
+                String message = "데이터가 없습니다.";
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("GRAPH CHECKSERVER 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel getSefilCareGraph(DataModel params) {
+        DataModel resultMap = new DataModel();
+        try {
+            // 유저의 권한을 체크한다.
+            getUserAuth(params);
+            resultMap.putStrNull("result", CommonConstant.SUCCESS);
+        } catch(Exception e) {
+            logger.error("GRAPH SEFILCARE 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel getZabbixGraph(DataModel params) {
+        DataModel resultMap = new DataModel();
+        try {
+            // 유저의 권한을 체크한다.
+            getUserAuth(params);
+            resultMap.putStrNull("result", CommonConstant.SUCCESS);
+        } catch(Exception e) {
+            logger.error("GRAPH ZABBIX 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    // 유저 권한 및 날짜 데이터 세팅
+    public void getUserAuth(DataModel params) {
+        // 0: yyyy, 1: mm
+        String[] yyyymm = new SimpleDateFormat("yyyy/MM").format(new Date()).split("/");
+        String date;
+        // 전달 1달간의 데이터를 얻기위해 연월날짜를 세팅한다
+        if(Integer.parseInt(yyyymm[1]) <= 1) {
+            date = String.valueOf(Integer.parseInt(yyyymm[0]) - 1) + "1201";
+        } else {
+            int exMon = Integer.parseInt(yyyymm[1]) - 1;
+            String month = (exMon >= 10) ? String.valueOf(exMon) : "0" + String.valueOf(exMon);
+            date = yyyymm[0] + month + "01";
+        }
+        params.putStrNull("date", date);
+        // 유저의 권한을 체크한다.
+        DataModel userAuth = mainMapper.getUserAuthentication(params);
+
+        String[] monitorServices = userAuth.getStrNull("description").replaceAll("(ADMIN/|GUEST/)", "").split("/");
+        int monitorServicesLen = monitorServices.length;
+        params.put("monitorServicesLen", monitorServicesLen);
+
+        for(String serviceNm : monitorServices) {
+            if(serviceNm.equals("ZABBIX")) {
+                params.putStrNull(serviceNm, CommonConstant.ZABBIX_CODE);
+            } else if(serviceNm.equals("POSTMAN")) {
+                params.putStrNull(serviceNm, CommonConstant.POSTMAN_CODE);
+            } else if(serviceNm.equals("SEFILCARE")) {
+                params.putStrNull(serviceNm, CommonConstant.SEFILCARE_CODE);
+            } else if(serviceNm.equals("CHECK_SERVER")) {
+                params.putStrNull(serviceNm, CommonConstant.CHECKSERVER_CODE);
+            } 
+        }
     }
 }

@@ -1,21 +1,21 @@
 import React, { Component, Fragment } from 'react';
-import { Title, Dashboard } from '../../components/Main/Home/';
-import { getHomeDashboard } from '../../lib/api';
+import { getSynthesisGraph } from '../../../lib/api';
 
-class Home extends Component {
+class Synthesis extends Component {
     state = {
-        chartData: []
+        chartData: {}
     }
 
     componentDidMount = async () => {
         const { uid, auth } = sessionStorage;
         try{
-            const response = await getHomeDashboard({uid, auth});
+            const response = await getSynthesisGraph({uid, auth});
             const { result, chartData, message } = response.data;
     
             if(result === "SUCCESS") {
+                console.log(chartData);
                 this.setState({
-                    chartData: [...chartData]
+                    chartData: {...chartData}
                 })
             } else {
                 console.error(response);
@@ -30,11 +30,10 @@ class Home extends Component {
     render() {
         return (
             <Fragment>
-                <Title/>
-                <Dashboard chartData={this.state.chartData}/>
+                
             </Fragment>
         );
     }
 }
 
-export default Home;
+export default Synthesis;

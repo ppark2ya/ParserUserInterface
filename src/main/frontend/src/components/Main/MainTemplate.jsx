@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -9,18 +10,21 @@ const Container = styled.div`
 
 const Main = styled.section`
     display: flex;
-    flex-direction: column;
+    flex-direction: ${props => props.column? 'column' : 'row'}
     height: 80%;
     background-color: #fff;
+    margin-top: 20px;
 `;
 
-const MainTemplate = ({ header, children }) => {
+const MainTemplate = ({ header, children, location: { pathname } }) => {
     return (
         <Container>
             {header}
-            <Main>{children}</Main>
+            {
+                (pathname === '/main/home' || pathname === '/main/stats')? <Main column>{children}</Main> : <Main>{children}</Main>
+            }
         </Container>
     );
 };
 
-export default MainTemplate;
+export default withRouter(MainTemplate);
