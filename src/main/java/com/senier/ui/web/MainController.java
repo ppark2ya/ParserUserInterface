@@ -5,12 +5,14 @@ import javax.annotation.Resource;
 import com.senier.ui.model.DataModel;
 import com.senier.ui.service.MainService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins="*", allowCredentials="true", maxAge=3600)
 @RestController
 public class MainController {
 
@@ -102,7 +104,7 @@ public class MainController {
         return mainService.getZabbixGraph(params);
     }
 
-/**
+    /**
      * Statistics 탭 Log 데이터 요청
      * @param uid : 로그인 유저 아이디
      * @param auth : 권한 코드값
