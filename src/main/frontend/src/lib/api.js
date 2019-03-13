@@ -27,6 +27,10 @@ export const getZabbixGraph = ({uid, auth}) => {
     return axios.get(`/graph/zabbix`, { params: {uid, auth} });
 }
 
-export const getLogStats = (selOptions) => {
+export const getLogStatsApi = (selOptions) => {
     return axios.post(`/stats/log`, selOptions);
+}
+
+export const getServiceListApi = ({uid, auth}) => {
+    return axios.get(`/api/serviceList`, { params: {uid, auth} });
 }

@@ -204,6 +204,24 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public DataModel getLogStats(DataModel params) {
+        mainMapper.getLogStats(params);
         return params;
+    }
+
+    @Override
+    public DataModel getServiceList(DataModel params) {
+        DataModel resultMap = new DataModel();
+        try {
+            // 유저의 권한을 체크한다.
+            getUserAuth(params);
+            resultMap.putStrNull("result", CommonConstant.SUCCESS);
+            resultMap.putAll(params);
+        } catch(Exception e) {
+            logger.error("GRAPH ZABBIX 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
     }
 }

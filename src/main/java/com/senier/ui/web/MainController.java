@@ -112,6 +112,23 @@ public class MainController {
      */
     @PostMapping("/stats/log")
     public DataModel getLogStats(@RequestBody DataModel params) {
-        return mainService.getZabbixGraph(params);
+        return mainService.getLogStats(params);
+    }
+
+    /**
+     * GRAPH 탭 ZABBIX 차트 데이터 요청
+     * @param uid : 로그인 유저 아이디
+     * @param auth : 권한 코드값
+     * @return DataModel : 
+     */
+    @GetMapping("/api/serviceList")
+    public DataModel getServiceList(
+        @RequestParam(name="uid", required=true) String uid, 
+        @RequestParam(name="auth", required=true) String auth
+    ) {
+        DataModel params = new DataModel();
+        params.putStrNull("uid", uid);
+        params.putStrNull("auth", auth);
+        return mainService.getServiceList(params);
     }
 }

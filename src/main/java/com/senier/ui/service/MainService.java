@@ -9,4 +9,5 @@ public interface MainService {
     public DataModel getSefilCareGraph(DataModel params);
     public DataModel getZabbixGraph(DataModel params);
     public DataModel getLogStats(DataModel params);
+    public DataModel getServiceList(DataModel params);
 }
