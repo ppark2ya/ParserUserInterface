@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -13,7 +13,7 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     formControl: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing.unit * 2,
         minWidth: 120,
     },
     selectEmpty: {
@@ -21,12 +21,12 @@ const styles = theme => ({
     },
 });
 
-class StatsSelect extends Component {
+class StatsSelect extends PureComponent {
     render() {
         const { classes, labelPlaceholder, name, menu, value, handleSelChange } = this.props;
         let menuItemList = [];
         
-        if(menu) {
+        if(name === "serviceCd") {
             menuItemList = menu.sort(
                 (a, b) => (a.serviceCd < b.serviceCd)? -1 : (a.serviceCd < b.serviceCd)? 1: 0
             ).map(

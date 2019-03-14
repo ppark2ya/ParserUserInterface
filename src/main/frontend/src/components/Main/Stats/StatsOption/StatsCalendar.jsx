@@ -1,29 +1,46 @@
-import React, { Component } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
- 
-class StatsCalendar extends Component {
-    state = {
-        startDate: new Date()
-    };
- 
-    handleChange = (date) => {
-        this.setState({
-            startDate: date
-        });
-    }
-  
-    render() {
-        const { name, classNm, value } = this.props;
-        return (
-        <DatePicker
-            selected={value}
-            onChange={this.handleChange}
-            name={name}
-            className={classNm}
-            dateFormat="YYYY-MM-dd"
-        />
-        );
-    }
-}
-export default StatsCalendar;
+import React from "react";
+import PropTypes from 'prop-types';
+import { DatePicker, MuiPickersUtilsProvider  } from "material-ui-pickers";
+import moment from "moment";
+import "moment/locale/ko";
+import MomentUtils from "@date-io/moment";
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    picker: {
+        margin: theme.spacing.unit * 2,
+    },
+});
+
+moment.locale("ko");
+
+const StatsCalendar = ({ classes, name, label, value, handleChange }) => {
+    return (
+      <MuiPickersUtilsProvider utils={MomentUtils} moment={moment} >
+        <div className={classes.picker}>
+          <DatePicker
+              keyboard
+              key={name}
+              name={name}
+              label={label}
+              format="YYYY/MM/DD"
+              mask={value =>
+                value ? [/\d/, /\d/, /\d/, /\d/,"/", /\d/, /\d/, "/", /\d/, /\d/] : []
+              }
+              value={value}
+              onChange={handleChange(name)}
+              disableOpenOnEnter
+              animateYearScrolling={false}
+              showTodayButton={true}
+              disableFuture={true}
+          />
+        </div>
+      </MuiPickersUtilsProvider>
+    );
+};
+
+StatsCalendar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(StatsCalendar);
