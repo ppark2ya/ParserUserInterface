@@ -1,5 +1,7 @@
 package com.senier.ui.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import com.senier.ui.model.DataModel;
@@ -106,9 +108,8 @@ public class MainController {
 
     /**
      * Statistics 탭 Log 데이터 요청
-     * @param uid : 로그인 유저 아이디
-     * @param auth : 권한 코드값
-     * @return DataModel : 조회옵션에 따른 로그데이터 출력
+     * @param params : serviceCd, status, startDt, endDt
+     * @return List<DataModel> : 조회옵션에 따른 로그데이터 출력
      */
     @PostMapping("/stats/log")
     public DataModel getLogStats(@RequestBody DataModel params) {

@@ -146,9 +146,43 @@
     </select>
 
     <select id="getLogStats" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
-        SELECT *
-        FROM TB_LOG_HISTORY
-        JOIN TB_LISTENING_SERVERS USING (SERVICE_CD)
-        WHERE SERVICE_CD=#{serviceCd} AND LOG_PRIORITY=#{status} AND LOG_DT BETWEEN #{startDt} AND #{endDt}
+        SELECT 
+            *,
+            ROW_NUMBER() OVER() as no,
+            0 as open
+        FROM 
+            (SELECT 
+                SERVICE_CD as serviceCd,
+                CASE
+                    WHEN SERVICE_CD = '00' THEN 'Zabbix'
+                    WHEN SERVICE_CD = '01' THEN 'Postman'
+                    WHEN SERVICE_CD = '02' THEN 'Sefilcare'
+                    WHEN SERVICE_CD = '03' THEN 'CheckServer'
+                END as serviceNm,
+                LOG_SEQ as logSeq,
+                LOG_PRIORITY as status,
+                LOG_TYPE as logType,
+                CONCAT(LOG_DT, LOG_TM) as date,
+                TITLE as title,
+                CONTENT as content
+            FROM TB_LOG_HISTORY
+            JOIN TB_LISTENING_SERVERS USING (SERVICE_CD)
+            WHERE 
+                USE_CL = '1'
+            <if test="serviceCd != null and serviceCd != ''">
+                AND SERVICE_CD=#{serviceCd}
+            </if>
+            <if test="status != null and status != ''">
+                AND LOG_PRIORITY=#{status} 
+            </if>
+            <if test="startDt != null and startDt != ''">
+                AND LOG_DT BETWEEN #{startDt} 
+            </if>
+            <if test="endDt != null and endDt != ''">
+                AND #{endDt}
+            </if>
+            ORDER BY date desc, serviceCd asc
+        ) RSLT
+        WHERE serviceCd IN (#{ZABBIX}, #{POSTMAN}, #{SEFILCARE}, #{CHECK_SERVER})
     </select>
 </mapper>
