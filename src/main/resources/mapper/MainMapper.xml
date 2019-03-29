@@ -162,7 +162,7 @@
                 LOG_SEQ as logSeq,
                 LOG_PRIORITY as status,
                 LOG_TYPE as logType,
-                CONCAT(LOG_DT, LOG_TM) as date,
+                DATE_FORMAT(CONCAT(LOG_DT, LOG_TM), '%Y-%m-%d %H:%i:%s') as date, 
                 TITLE as title,
                 CONTENT as content
             FROM TB_LOG_HISTORY
