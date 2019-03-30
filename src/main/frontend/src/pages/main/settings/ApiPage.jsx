@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ApiPageContainer from '../../../containers/ApiPageContainer';
 
-class ApiPage extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
+const ApiPage = () => {
+    return (
+        <ApiPageContainer/> 
+    );
 }
 
 export default ApiPage;

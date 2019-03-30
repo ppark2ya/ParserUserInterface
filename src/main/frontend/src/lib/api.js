@@ -2,8 +2,21 @@ import axios from './defaultClient';
 
 export const loginProcApi = ({id, pw}) => {
     return axios.post(`/auth/loginProc`, {
-        id,
+        uid: id,
         pw,
+    });
+}
+
+export const updateUserApi = ({uid, pw}) => {
+    return axios.post(`/auth/updateUser`, {
+        uid,
+        pw,
+    });
+}
+
+export const getUserInfoApi = (uid) => {
+    return axios.post(`/auth/getUserInfo`, {
+        uid,
     });
 }
 
@@ -32,5 +45,9 @@ export const getLogStatsApi = (selOptions) => {
 }
 
 export const getServiceListApi = ({uid, auth}) => {
+    return axios.get(`/api/serviceList`, { params: {uid, auth} });
+}
+
+export const setServerControlApi = ({uid, auth}) => {
     return axios.get(`/api/serviceList`, { params: {uid, auth} });
 }

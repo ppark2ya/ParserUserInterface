@@ -30,5 +30,23 @@ public class LoginController {
 
         return resultMap;
     }
+    
+    @PostMapping("/auth/getUserInfo")
+    public DataModel getUserInfo(@RequestBody DataModel dm) {
+        logger.info("getUserInfo Params - {}", dm);
+        DataModel resultMap = loginService.getUserInfo(dm);
+        logger.info("getUserInfo Result - {}", resultMap);
+
+        return resultMap;
+    }
+
+    @PostMapping("/auth/updateUser")
+    public DataModel updateUser(@RequestBody DataModel dm) {
+        logger.info("updateUser Params - {}", dm);
+        DataModel resultMap = loginService.updateUser(dm);
+        logger.info("updateUser Result - {}", resultMap);
+
+        return resultMap;
+    }
 
 }

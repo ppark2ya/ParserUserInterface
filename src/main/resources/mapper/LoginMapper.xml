@@ -7,18 +7,28 @@
         FROM
             TB_USER
         WHERE
-            UID=#{id} AND PASSWD=#{pw}
+            UID=#{uid} AND PASSWD=#{pw}
     </select>
 
     <select id="getUserInfo" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
         SELECT 
             UID as "uid",
+            PASSWD as "pw",
             AUTH as "authCd",
             TEL_NUM as "telNum",
+            NAME as "name",
+            EMAIL as "email",
             USE_CL as "useCl"
         FROM
             TB_USER
         WHERE
-            UID=#{id}
+            UID=#{uid}
     </select>
+
+    <update id="updateUser" parameterType="com.senier.ui.model.DataModel">
+        UPDATE TB_USER
+        SET PASSWD = #{pw}
+        WHERE UID = #{uid}
+    </update>
+
 </mapper>

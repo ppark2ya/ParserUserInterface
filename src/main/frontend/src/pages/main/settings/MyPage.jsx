@@ -1,14 +1,10 @@
-import React, { Fragment, PureComponent } from 'react';
-import { MypageContainers } from '../../../containers/MypageContainers';
+import React from 'react';
+import MypageContainer from '../../../containers/MypageContainer';
 
-class MyPage extends PureComponent {
-    render() {
-        return (
-            <Fragment>
-                <MypageContainers/>
-            </Fragment>
-        );
-    }
+const MyPage = () => {
+    return (
+        <MypageContainer/>
+    );
 }
 
 export default MyPage;

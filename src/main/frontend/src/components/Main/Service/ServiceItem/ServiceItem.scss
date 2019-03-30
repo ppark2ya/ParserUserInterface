@@ -1,0 +1,60 @@
+.service-item {
+    display: inline-table;
+    width: 44.3%;
+    height: 50%;
+    padding: 3rem 2rem;
+    border: 1.5px solid #cecece;
+
+    & .service-header {
+        margin-bottom: 3rem;
+
+        & .service-title {
+            font-weight: bold;
+            font-size: 3rem;
+        }
+
+        & .service-checkbox + label {
+            width: 2.7rem;
+            height: 2.7rem;
+            float: right;
+            border: 1.5px solid #000;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        & .service-checkbox:checked + label {
+            background-color: #c3c3c3;
+        }
+
+        & .service-checkbox {
+            display: none;
+        }
+    }
+
+    & .service-content {
+
+        & .service-description {
+            font-size: 1.4rem;
+        }
+    }
+}
+
+.service-item:first-child {
+    border-top: none;
+    border-left: none;
+}
+
+.service-item:nth-child(2) {
+    border-top: none;
+    border-right: none;
+}
+
+.service-item:nth-child(3) {
+    border-left: none;
+    border-bottom: none;
+}
+
+.service-item:last-child {
+    border-right: none;
+    border-bottom: none;
+}

@@ -1,0 +1,38 @@
+.form-container {
+    width: 70%;
+    border-right: 3px solid #b9b7b7;
+    box-shadow: rgb(201, 198, 198);
+
+    & .form-control {
+        width: 100%;
+        margin: 3rem auto;
+
+        & label {
+            font-size: 2rem;
+            margin-left: 3rem; 
+            display: inline-block;
+            width: 20%;
+        }
+        & input {
+            width: 40%;
+            height: 2rem;
+            padding: 10px;
+            border: 1.5px solid #000;
+            font-size: 1.8rem;
+        }
+
+        & input[readonly] {
+            background-color: #cecece;
+        }
+
+        & button {
+            width: 9rem;
+            height: 3rem;
+            margin-left: 4rem;
+            color: #fff;
+            font-size: 2rem;
+            background-color: #696969;
+            cursor: pointer;
+        }
+    }
+}

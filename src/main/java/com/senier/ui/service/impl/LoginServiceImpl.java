@@ -47,18 +47,52 @@ public class LoginServiceImpl implements LoginService {
                 } else {
                     // 미사용 계정일 때
                     resultMap.putStrNull("result", CommonConstant.FAIL);
-                    return resultMap;    
                 }
             } else {
                 resultMap.putStrNull("result", CommonConstant.FAIL);
             }
     
-            return resultMap;
 
         } catch(Exception e) {
             logger.error("로그인 에러 발생 - {}" , e.getMessage());
             resultMap.putStrNull("result", CommonConstant.FAIL);
-            return resultMap;
         }
+
+        return resultMap;
+    }
+
+    @Override
+    public DataModel getUserInfo(DataModel dm) {
+        DataModel resultMap = new DataModel();
+
+        try {
+            DataModel userInfo = loginMapper.getUserInfo(dm);
+            resultMap.putAll(userInfo);
+            resultMap.putStrNull("result", CommonConstant.SUCCESS);
+        } catch(Exception e) {
+            logger.error("유저 정보 조회 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel updateUser(DataModel dm) {
+        DataModel resultMap = new DataModel(); 
+        try {
+            int cnt = loginMapper.updateUser(dm);
+
+            if(cnt > 0) {
+                DataModel userInfo = loginMapper.getUserInfo(dm);
+                resultMap.putAll(userInfo);
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+            } else {
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+            }
+        } catch(Exception e) {
+            logger.error("사용자 정보 수정 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+        }
+        return resultMap;
     }
 }
