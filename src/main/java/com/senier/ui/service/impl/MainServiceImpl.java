@@ -291,4 +291,100 @@ public class MainServiceImpl implements MainService {
         }
         return resultMap;
     }
+
+    @Override
+    public DataModel deleteEmailAddr(DataModel params) {
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        try {
+            int cnt = mainMapper.deleteEmailAddr(params);
+
+            if(cnt > 0) {
+                resultMap.putAll(loginMapper.getUserInfo(params));
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putAll(params);
+            } else {
+                logger.error("DELETE EMAIL ADDR 에러 발생");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("DELETE EMAIL ADDR 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel addEmailAddr(DataModel params) {
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        try {
+            int cnt = mainMapper.addEmailAddr(params);
+
+            if(cnt > 0) {
+                resultMap.putAll(loginMapper.getUserInfo(params));
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putAll(params);
+            } else {
+                logger.error("ADD EMAIL ADDR 에러 발생");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("ADD EMAIL ADDR 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel deleteTelNum(DataModel params) {
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        try {
+            int cnt = mainMapper.deleteTelNum(params);
+
+            if(cnt > 0) {
+                resultMap.putAll(loginMapper.getUserInfo(params));
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putAll(params);
+            } else {
+                logger.error("DELETE TELNUM 에러 발생");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("DELETE TELNUM 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public DataModel addTelNum(DataModel params) {
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        try {
+            int cnt = mainMapper.addTelNum(params);
+
+            if(cnt > 0) {
+                resultMap.putAll(loginMapper.getUserInfo(params));
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putAll(params);
+            } else {
+                logger.error("ADD TELNUM 에러 발생");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("ADD TELNUM 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
 }

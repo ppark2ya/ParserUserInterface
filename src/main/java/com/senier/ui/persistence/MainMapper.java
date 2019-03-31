@@ -13,4 +13,8 @@ public interface MainMapper {
     public List<DataModel> getZabbixGraph(DataModel params);
     public List<DataModel> getLogStats(DataModel params);
     public int authUpdate(DataModel params);
+    public int deleteEmailAddr(DataModel params);
+    public int addEmailAddr(DataModel params);
+    public int deleteTelNum(DataModel params);
+    public int addTelNum(DataModel params);
 }

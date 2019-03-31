@@ -8,6 +8,7 @@ import com.senier.ui.service.MainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -137,14 +138,66 @@ public class MainController {
     }
 
     /**
-     * SERVICE LIST 조회
-     * @param uid : 로그인 유저 아이디
-     * @param auth : 권한 코드값
-     * @return DataModel : 사용자가 관제 중인 service 목록
+     * 사용자 권한 수정
+     * @param : uid
+     * @param : auth
+     * @param : zabbix
+     * @param : posmant 
+     * @param : sefilcare 
+     * @param : checkserver
+     * @return DataModel : 수정된 사용자 정보
      */
     @PatchMapping("/api/authUpdate")
     public DataModel authUpdate(@RequestBody DataModel params) {
         logger.info("authUpdate Params : {}", params);
         return mainService.authUpdate(params);
+    }
+
+    /**
+     * 사용자 이메일 주소 삭제
+     * @param : uid
+     * @return DataModel : 수정된 사용자 정보
+     */
+    @DeleteMapping("/api/deleteEmailAddr")
+    public DataModel deleteEmailAddr(@RequestParam(name="uid", required=true) String uid) {
+        DataModel params = new DataModel();
+        params.putStrNull("uid", uid);
+        logger.info("deleteEmailAddr Params : {}", params);
+        return mainService.deleteEmailAddr(params);
+    }
+
+    /**
+     * 사용자 이메일 주소 추가
+     * @param : uid
+     * @return DataModel : 수정된 사용자 정보
+     */
+    @PostMapping("/api/addEmailAddr")
+    public DataModel addEmailAddr(@RequestBody DataModel params) {
+        logger.info("addEmailAddr Params : {}", params);
+        return mainService.addEmailAddr(params);
+    }
+
+    /**
+     * 사용자 전화번호 삭제
+     * @param : uid
+     * @return DataModel : 수정된 사용자 정보
+     */
+    @DeleteMapping("/api/deleteTelNum")
+    public DataModel deleteTelNum(@RequestParam(name="uid", required=true) String uid) {
+        DataModel params = new DataModel();
+        params.putStrNull("uid", uid);
+        logger.info("deleteTelNum Params : {}", params);
+        return mainService.deleteTelNum(params);
+    }
+
+    /**
+     * 사용자 전화번호 추가
+     * @param : uid
+     * @return DataModel : 수정된 사용자 정보
+     */
+    @PostMapping("/api/addTelNum")
+    public DataModel addTelNum(@RequestBody DataModel params) {
+        logger.info("addTelNum Params : {}", params);
+        return mainService.addTelNum(params);
     }
 }

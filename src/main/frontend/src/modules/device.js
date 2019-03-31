@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { handleActions, createAction } from 'redux-actions';
-import { getUserInfoApi } from '../lib/api';
+import { getUserInfoApi, deleteEmailAddrApi, addEmailAddrApi, deleteTelNumApi, addTelNumApi } from '../lib/api';
 import { applyPenders } from 'redux-pender/lib/utils';
 
 const SET_EMAIL = 'device/SET_EMAIL';
@@ -14,12 +14,14 @@ const ADD_TELNUM = 'device/ADD_TELNUM';
 export const setEmail = createAction(SET_EMAIL);
 export const setTelNum = createAction(SET_TELNUM);
 export const getUserInfo = createAction(GET_USERINFO, getUserInfoApi);
-export const deleteEmailAddr = createAction(DELETE_EMAILADDR, getUserInfoApi);
-export const addEmailAddr = createAction(ADD_EMAILADDR, getUserInfoApi);
-export const deleteTelNum = createAction(DELETE_TELNUM, getUserInfoApi);
-export const addTelNum = createAction(ADD_TELNUM, getUserInfoApi);
+export const deleteEmailAddr = createAction(DELETE_EMAILADDR, deleteEmailAddrApi);
+export const addEmailAddr = createAction(ADD_EMAILADDR, addEmailAddrApi);
+export const deleteTelNum = createAction(DELETE_TELNUM, deleteTelNumApi);
+export const addTelNum = createAction(ADD_TELNUM, addTelNumApi);
 
 const initialState = {
+    plainTel: '',
+    plainEmail: '',
     tel: '',
     email: '',
     data: {
@@ -53,6 +55,8 @@ export default applyPenders(reducer, [
             return produce(state, draft => {
                 draft.tel = telNum;
                 draft.email = email;
+                draft.plainTel = telNum;
+                draft.plainEmail = email;
                 draft.data.result = result;
             });
         },
@@ -70,6 +74,7 @@ export default applyPenders(reducer, [
             } else {
                 return produce(state, draft => {
                     draft.email = '';
+                    draft.plainEmail = '';
                     draft.data.result = result;
                 });
             }
@@ -88,6 +93,7 @@ export default applyPenders(reducer, [
             } else {
                 return produce(state, draft => {
                     draft.email = email;
+                    draft.plainEmail = email;
                     draft.data.result = result;
                 });
             }
@@ -107,6 +113,7 @@ export default applyPenders(reducer, [
             } else {
                 return produce(state, draft => {
                     draft.tel = '';
+                    draft.plainTel = '';
                     draft.data.result = result;
                 });
             }
@@ -126,6 +133,7 @@ export default applyPenders(reducer, [
             } else {
                 return produce(state, draft => {
                     draft.tel = telNum;
+                    draft.plainTel = telNum;
                     draft.data.result = result;
                 });
             }

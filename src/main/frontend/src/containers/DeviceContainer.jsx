@@ -16,8 +16,10 @@ class DeviceContainer extends PureComponent {
     static propTypes = {
         email: PropTypes.string.isRequired,
         tel: PropTypes.string.isRequired,
+        plainEmail: PropTypes.string.isRequired,
+        plainTel: PropTypes.string.isRequired,
         result: PropTypes.string,
-        ServiceActions: PropTypes.object.isRequired,
+        DeviceActions: PropTypes.object.isRequired,
     }
 
     handleChange = (e) => {
@@ -33,7 +35,7 @@ class DeviceContainer extends PureComponent {
 
         try {
             const { DeviceActions } = this.props;
-            const response = (name === 'email') ? await DeviceActions.deleteEmail(uid) : await DeviceActions.deleteTelNum(uid);
+            const response = (name === 'email') ? await DeviceActions.deleteEmailAddr(uid) : await DeviceActions.deleteTelNum(uid);
             
             if(response.data.result === "SUCCESS") {
                 alert('삭제되었습니다!');
@@ -48,11 +50,11 @@ class DeviceContainer extends PureComponent {
         const { name } = e.target;
 
         try {
-            const { DeviceActions } = this.props;
-            const response = (name === 'email') ? await DeviceActions.addEmail(uid) : await DeviceActions.addTelNum(uid);
+            const { DeviceActions, email, tel } = this.props;
+            const response = (name === 'email') ? await DeviceActions.addEmailAddr({uid, email}) : await DeviceActions.addTelNum({uid, tel});
 
             if(response.data.result === "SUCCESS") {
-                alert('추가되었습니다!');
+                alert('추가(수정) 되었습니다!');
             }
         } catch(e) {
             console.error(e);
@@ -72,15 +74,15 @@ class DeviceContainer extends PureComponent {
 
     render() {
         const { uid } = sessionStorage;
-        const { handleChange, handleRemove, handleAdd, props: { email, tel } } = this;
+        const { handleChange, handleRemove, handleAdd, props: { plainEmail, plainTel } } = this;
 
         return (
             <StyledContainer>
                 <Title>전송받을 디바이스</Title>
                 <DeviceForm
                     uid={uid}
-                    email={email}
-                    tel={tel}
+                    plainEmail={plainEmail}
+                    plainTel={plainTel}
                     handleChange={handleChange}
                     handleRemove={handleRemove}
                     handleAdd={handleAdd}
@@ -94,6 +96,8 @@ export default connect(
     (state) => ({
         email: state.device.email,
         tel: state.device.tel,
+        plainEmail: state.device.plainEmail,
+        plainTel: state.device.plainTel,
         result: state.service.data.result
     }),
     (dispatch) => ({

@@ -11,4 +11,8 @@ public interface MainService {
     public DataModel getLogStats(DataModel params);
     public DataModel getServiceList(DataModel params);
     public DataModel authUpdate(DataModel params);
+    public DataModel deleteEmailAddr(DataModel params);
+    public DataModel addEmailAddr(DataModel params);
+    public DataModel deleteTelNum(DataModel params);
+    public DataModel addTelNum(DataModel params);
 }

@@ -69,17 +69,23 @@ export const setServerControlApi = (selOptions) => {
 }
 
 export const deleteEmailAddrApi = (uid) => {
-    return axios.delete(`/api/deleteEmailAddr`, uid);
+    return axios.delete(`/api/deleteEmailAddr`, { params: { uid } });
 }
 
-export const addEmailAddrApi = (uid) => {
-    return axios.post(`/api/addEmailAddr`, uid);
+export const addEmailAddrApi = ({uid, email}) => {
+    return axios.post(`/api/addEmailAddr`, {
+        uid,
+        email
+    });
 }
 
 export const deleteTelNumApi = (uid) => {
-    return axios.delete(`/api/deleteTelNum`, uid);
+    return axios.delete(`/api/deleteTelNum`, { params: { uid } });
 }
 
-export const addTelNumApi = (uid) => {
-    return axios.post(`/api/addTelNum`, uid);
+export const addTelNumApi = ({uid, tel}) => {
+    return axios.post(`/api/addTelNum`, {
+        uid,
+        tel
+    });
 }

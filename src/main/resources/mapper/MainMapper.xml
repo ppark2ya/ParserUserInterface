@@ -189,7 +189,30 @@
     <update id="authUpdate" parameterType="com.senier.ui.model.DataModel">
         UPDATE TB_USER
         SET AUTH = ( SELECT CODE_CL FROM TB_CODE WHERE DESC1 = #{authStr} )
-        WHERE UID=#{uid}
+        WHERE UID = #{uid}
     </update>
 
+    <update id="deleteEmailAddr" parameterType="com.senier.ui.model.DataModel">  
+        UPDATE TB_USER
+        SET EMAIL = ''
+        WHERE UID = #{uid}
+    </update>
+
+    <update id="addEmailAddr" parameterType="com.senier.ui.model.DataModel">
+        UPDATE TB_USER
+        SET EMAIL = #{email}
+        WHERE UID = #{uid}
+    </update>
+
+    <update id="deleteTelNum" parameterType="com.senier.ui.model.DataModel">
+        UPDATE TB_USER
+        SET TEL_NUM = ''
+        WHERE UID = #{uid}
+    </update>
+
+    <update id="addTelNum" parameterType="com.senier.ui.model.DataModel">
+        UPDATE TB_USER
+        SET TEL_NUM = #{tel}
+        WHERE UID = #{uid}
+    </update>
 </mapper>

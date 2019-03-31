@@ -26,10 +26,10 @@ const ButtonStyle = {
 class ApiPageContainer extends PureComponent {
 
     static propTypes = {
-        zabbix: PropTypes.any.isRequired,
-        postman: PropTypes.any.isRequired,
-        sefilcare: PropTypes.any.isRequired,
-        checkserver: PropTypes.any.isRequired,
+        zabbix: PropTypes.any,
+        postman: PropTypes.any,
+        sefilcare: PropTypes.any,
+        checkserver: PropTypes.any,
         result: PropTypes.string,
         ServiceActions: PropTypes.object.isRequired,
     }
