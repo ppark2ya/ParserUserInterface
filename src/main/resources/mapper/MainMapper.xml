@@ -215,4 +215,14 @@
         SET TEL_NUM = #{tel}
         WHERE UID = #{uid}
     </update>
+    <select id="getCriticalServerCount" resultType="com.senier.ui.model.DataModel" parameterType="com.senier.ui.model.DataModel">
+        SELECT 
+            (SELECT DESC1 FROM TB_CODE WHERE CODE_CL = A.SERVICE_CD) AS "logType", 
+            COUNT(1) AS "cnt" 
+        FROM TB_LOG_HISTORY A 
+        WHERE A.LOG_PRIORITY = 'CRITICAL' 
+        AND A.LOG_DT >= (SELECT DATE_ADD(NOW(), INTERVAL -3 DAY) )
+        GROUP BY SERVICE_CD
+    </select>
+
 </mapper>

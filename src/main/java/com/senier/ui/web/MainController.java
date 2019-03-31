@@ -153,6 +153,14 @@ public class MainController {
         return mainService.authUpdate(params);
     }
 
+    @GetMapping("/api/getCriticalServerData")
+    public DataModel getCriticalServerData(){
+        DataModel resultMap = new DataModel();
+        DataModel param = new DataModel();
+        resultMap.putAll(mainService.getCriticalServerCount(param));
+        return resultMap;
+    }
+
     /**
      * 사용자 이메일 주소 삭제
      * @param : uid

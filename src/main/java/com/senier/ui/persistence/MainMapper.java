@@ -17,4 +17,5 @@ public interface MainMapper {
     public int addEmailAddr(DataModel params);
     public int deleteTelNum(DataModel params);
     public int addTelNum(DataModel params);
+    public List<DataModel> getCriticalServerCount(DataModel params);
 }

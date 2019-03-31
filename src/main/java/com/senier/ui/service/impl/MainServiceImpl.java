@@ -293,6 +293,38 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    public DataModel getCriticalServerCount(DataModel params){
+        DataModel resultMap = new DataModel();
+        try {
+            Iterator<DataModel> cdataLst = mainMapper.getCriticalServerCount(params).iterator();
+            
+            if(cdataLst.hasNext()) {
+                DataModel chartData = new DataModel();
+                
+                while(cdataLst.hasNext()) {
+                    DataModel cdata = cdataLst.next();
+                    chartData.put(cdata.getStrNull("logType"), cdata.get("cnt"));
+                }
+
+                resultMap.put("chartData", chartData);
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+            }else {
+                logger.info("데이터 없음 !!");
+                String message = "데이터가 없습니다.";
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch (Exception e) {
+            logger.error("GRAPH MAIN 에러 발생 - {}" , e.getMessage());
+            String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+
+        }
+        return resultMap;
+    }
+
+    @Override
     public DataModel deleteEmailAddr(DataModel params) {
         DataModel resultMap = new DataModel();
         String message = "관리자에게 문의하세요.";

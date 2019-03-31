@@ -89,3 +89,7 @@ export const addTelNumApi = ({uid, tel}) => {
         tel
     });
 }
+
+export const getCriticalServerList = () =>{
+    return axios.get(`/api/getCriticalServerData`);
+}
