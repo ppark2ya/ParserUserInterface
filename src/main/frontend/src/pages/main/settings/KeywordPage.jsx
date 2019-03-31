@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import KeywordContainer from '../../../containers/KeywordContainer';
 
-class KeywordPage extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
-}
+const KeywordPage = () => {
+    return (
+        <KeywordContainer/>
+    );
+};
 
 export default KeywordPage;
