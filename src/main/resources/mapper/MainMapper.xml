@@ -225,4 +225,23 @@
         GROUP BY SERVICE_CD
     </select>
 
+    <select id="SefilCareGraph" resultType="com.senier.ui.model.DataModel">
+        SELECT 
+            date_format(`LOG_DT`, '%Y-%m-%d') day, count(*) as count
+            FROM TB_LOG_HISTORY 
+            where service_cd = '02' 
+            and LOG_DT > date_add(now(),interval -7 day) 
+        group by day
+    </select>
+    <select id="zabbixGraph" resultType="com.senier.ui.model.DataModel" >
+        SELECT
+            STATUS_NM,
+            UPD_DT as day, 
+            count(*) as count
+        FROM TB_ERROR_STATUS 
+        where  
+        UPD_DT > date_add(now(),interval -7 day)  
+        group by 
+        STATUS_NM ,UPD_DT
+    </select>
 </mapper>
