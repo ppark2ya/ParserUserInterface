@@ -83,3 +83,7 @@ export const deleteTelNumApi = (uid) => {
 export const addTelNumApi = (uid) => {
     return axios.post(`/api/addTelNum`, uid);
 }
+
+export const getCriticalServerList = () =>{
+    return axios.get(`/api/getCriticalServerData`);
+}

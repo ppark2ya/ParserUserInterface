@@ -13,4 +13,5 @@ public interface MainMapper {
     public List<DataModel> getZabbixGraph(DataModel params);
     public List<DataModel> getLogStats(DataModel params);
     public int authUpdate(DataModel params);
+    public List<DataModel> getCriticalServerCount(DataModel params);
 }

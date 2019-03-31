@@ -147,4 +147,12 @@ public class MainController {
         logger.info("authUpdate Params : {}", params);
         return mainService.authUpdate(params);
     }
+
+    @GetMapping("/api/getCriticalServerData")
+    public DataModel getCriticalServerData(){
+        DataModel resultMap = new DataModel();
+        DataModel param = new DataModel();
+        resultMap.putAll(mainService.getCriticalServerCount(param));
+        return resultMap;
+    }
 }
