@@ -12,4 +12,5 @@ public interface MainMapper {
     public List<DataModel> getSefilCareGraph(DataModel params);
     public List<DataModel> getZabbixGraph(DataModel params);
     public List<DataModel> getLogStats(DataModel params);
+    public int authUpdate(DataModel params);
 }

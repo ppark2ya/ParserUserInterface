@@ -2,6 +2,7 @@ package com.senier.ui.service.impl;
 
 import com.senier.ui.common.CommonConstant;
 import com.senier.ui.model.DataModel;
+import com.senier.ui.persistence.LoginMapper;
 import com.senier.ui.persistence.MainMapper;
 import com.senier.ui.service.MainService;
 
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("MainService")
 public class MainServiceImpl implements MainService {
@@ -24,6 +26,9 @@ public class MainServiceImpl implements MainService {
     @Autowired
     private MainMapper mainMapper;
     
+    @Autowired
+    private LoginMapper loginMapper;
+
     @Override
     public DataModel getHomeDashboard(DataModel params) {
         DataModel resultMap = new DataModel();
@@ -231,8 +236,56 @@ public class MainServiceImpl implements MainService {
             resultMap.putStrNull("result", CommonConstant.SUCCESS);
             resultMap.putAll(params);
         } catch(Exception e) {
-            logger.error("GRAPH ZABBIX 에러 발생 - {}" , e.getMessage());
+            logger.error("GET SERVICELIST 에러 발생 - {}" , e.getMessage());
             String message = "관리자에게 문의하세요.";
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
+    @Override
+    @Transactional
+    public DataModel authUpdate(DataModel params) {
+        // authUpdate Params : {uid=admin, zabbix=false, checkserver=false, postman=true, auth=31, sefilcare=true}
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        StringBuilder authStr = new StringBuilder();
+        try {
+            // GUEST or ADMIN
+            String isAdmin = mainMapper.getUserAuthentication(params).getStrNull("description").split("/")[0];
+            authStr.append(isAdmin + "/");
+
+            if(params.getBoolean("zabbix")) {
+                authStr.append("ZABBIX" + "/");
+            }
+            if(params.getBoolean("postman")) {
+                authStr.append("POSTMAN" + "/");
+            }
+            if(params.getBoolean("sefilcare")) {
+                authStr.append("SEFILCARE" + "/");
+            }
+            if(params.getBoolean("checkserver")) {
+                authStr.append("CHECK_SERVER" + "/");
+            }
+            int len = authStr.length();
+            authStr = authStr.replace(len - 1, len, "");
+            params.putStrNull("authStr", authStr.toString());
+            int cnt = mainMapper.authUpdate(params);
+
+            if(cnt > 0) { 
+                params.putAll(loginMapper.getUserInfo(params));
+                // 유저의 권한을 체크한다.
+                getUserAuth(params);
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putAll(params);
+            } else {
+                logger.error("AUTH UPDATE 에러 발생 - {}");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("AUTH UPDATE 에러 발생 - {}" , e.getMessage());
             resultMap.putStrNull("result", CommonConstant.FAIL);
             resultMap.putStrNull("message", message);
         }

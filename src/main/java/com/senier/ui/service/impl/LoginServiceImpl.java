@@ -34,11 +34,11 @@ public class LoginServiceImpl implements LoginService {
                 DataModel userInfo = loginMapper.getUserInfo(dm);
                 // 사용 중인 계정일 때
                 if(userInfo.getStrNull("useCl").equals("1")) {
-                    logger.info("{}({}) - 로그인 성공", userInfo.getStrNull("uid"), userInfo.getStrNull("authCd"));
+                    logger.info("{}({}) - 로그인 성공", userInfo.getStrNull("uid"), userInfo.getStrNull("auth"));
                     resultMap.putStrNull("result", CommonConstant.SUCCESS);
                     // 화면에서 권한 체크에 필요한 데이터 저장
                     resultMap.putStrNull("uid", userInfo.getStrNull("uid"));
-                    resultMap.putStrNull("auth", userInfo.getStrNull("authCd"));
+                    resultMap.putStrNull("auth", userInfo.getStrNull("auth"));
                     resultMap.putStrNull("expired", TimeUtil.currentTime());
                     // 세션에 유저정보 저장
                     session.setAttribute("auth", userInfo);

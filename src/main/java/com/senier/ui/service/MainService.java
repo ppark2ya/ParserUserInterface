@@ -10,4 +10,5 @@ public interface MainService {
     public DataModel getZabbixGraph(DataModel params);
     public DataModel getLogStats(DataModel params);
     public DataModel getServiceList(DataModel params);
+    public DataModel authUpdate(DataModel params);
 }

@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import DeviceContainer from '../../../containers/DeviceContainer';
 
-class Device extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
+const Device = () => {
+    return (
+        <DeviceContainer/>
+    );
 }
 
 export default Device;

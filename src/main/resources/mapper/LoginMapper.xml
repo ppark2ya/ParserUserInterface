@@ -14,7 +14,7 @@
         SELECT 
             UID as "uid",
             PASSWD as "pw",
-            AUTH as "authCd",
+            AUTH as "auth",
             TEL_NUM as "telNum",
             NAME as "name",
             EMAIL as "email",

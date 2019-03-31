@@ -1,14 +1,15 @@
 package com.senier.ui.web;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import com.senier.ui.model.DataModel;
 import com.senier.ui.service.MainService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins="*", allowCredentials="true", maxAge=3600)
 @RestController
 public class MainController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Resource(name="MainService")
     private MainService mainService;
@@ -117,10 +120,10 @@ public class MainController {
     }
 
     /**
-     * GRAPH 탭 ZABBIX 차트 데이터 요청
+     * SERVICE LIST 조회
      * @param uid : 로그인 유저 아이디
      * @param auth : 권한 코드값
-     * @return DataModel : 
+     * @return DataModel : 사용자가 관제 중인 service 목록
      */
     @GetMapping("/api/serviceList")
     public DataModel getServiceList(
@@ -131,5 +134,17 @@ public class MainController {
         params.putStrNull("uid", uid);
         params.putStrNull("auth", auth);
         return mainService.getServiceList(params);
+    }
+
+    /**
+     * SERVICE LIST 조회
+     * @param uid : 로그인 유저 아이디
+     * @param auth : 권한 코드값
+     * @return DataModel : 사용자가 관제 중인 service 목록
+     */
+    @PatchMapping("/api/authUpdate")
+    public DataModel authUpdate(@RequestBody DataModel params) {
+        logger.info("authUpdate Params : {}", params);
+        return mainService.authUpdate(params);
     }
 }

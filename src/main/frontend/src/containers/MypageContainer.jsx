@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
-    width: 100%;
+    width: 80%;
     display: flex;
     align-items: center;
 `;

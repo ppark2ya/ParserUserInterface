@@ -11,7 +11,7 @@
         INNER JOIN 
             TB_CODE c ON u.AUTH = c.CODE_CL
         WHERE
-            u.USE_CL = '1' AND u.UID=#{uid} AND u.AUTH=#{auth};
+            u.USE_CL = '1' AND u.UID=#{uid} AND u.AUTH=#{auth}
     </select>
 
     <select id="getHomeDashboard" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
@@ -185,4 +185,11 @@
         ) RSLT
         WHERE serviceCd IN (#{ZABBIX}, #{POSTMAN}, #{SEFILCARE}, #{CHECK_SERVER})
     </select>
+
+    <update id="authUpdate" parameterType="com.senier.ui.model.DataModel">
+        UPDATE TB_USER
+        SET AUTH = ( SELECT CODE_CL FROM TB_CODE WHERE DESC1 = #{authStr} )
+        WHERE UID=#{uid}
+    </update>
+
 </mapper>

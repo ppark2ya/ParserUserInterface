@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Title } from '../components/Main/Home/';
 import { ServiceList } from '../components/Main/Service/ServiceList/';
 import PropTypes from 'prop-types';
@@ -17,19 +17,19 @@ const ButtonStyle = {
     height: '50%',
     background: 'transparent',
     fontSize: '1rem',
-    border: 'none',
     cursor: 'pointer',
     marginTop: '14px',
     marginRight: '10px',
     border: '1px solid #000',
 }
+
 class ApiPageContainer extends PureComponent {
 
     static propTypes = {
-        zabbix: PropTypes.bool.isRequired,
-        postman: PropTypes.bool.isRequired,
-        sefilcare: PropTypes.bool.isRequired,
-        checkserver: PropTypes.bool.isRequired,
+        zabbix: PropTypes.any.isRequired,
+        postman: PropTypes.any.isRequired,
+        sefilcare: PropTypes.any.isRequired,
+        checkserver: PropTypes.any.isRequired,
         result: PropTypes.string,
         ServiceActions: PropTypes.object.isRequired,
     }
@@ -44,16 +44,30 @@ class ApiPageContainer extends PureComponent {
         (name === 'postman') ? ServiceActions.setPostman() : console.error('잘못된 이벤트!');
     }
 
-    handleClick = () => {
+    handleClick = async () => {
+        const { uid, auth } = sessionStorage;
 
+        try {
+            const { ServiceActions, zabbix, postman, sefilcare, checkserver } = this.props;
+            const response = await ServiceActions.setServerControl({ uid, auth, zabbix, postman, sefilcare, checkserver });
+
+            if(response.data.result === "SUCCESS") {
+                alert("수정되었습니다.");
+            }
+        } catch(e) {
+            console.error(e);
+        }
     }
 
     componentDidMount = async() => {
-        /* 
-            ** TODO **
-            sessionStorage에 저장된 uid, auth를 이용하여 현재 사용중인 service들 체크
-            저장버튼 클릭 시 해당 계정의 auth update치고, 바뀐 auth 가져와서 service들 체크 && sessionStorage에 저장된 auth값도 갱신
-        */
+        const { uid, auth } = sessionStorage;
+
+        try {
+            const { ServiceActions } = this.props;
+            await ServiceActions.getUsingServers({ uid, auth });
+        } catch(e) {
+            console.error(e);
+        }
     }
 
     render() {

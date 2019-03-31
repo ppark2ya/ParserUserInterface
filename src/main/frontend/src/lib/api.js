@@ -8,7 +8,7 @@ export const loginProcApi = ({id, pw}) => {
 }
 
 export const updateUserApi = ({uid, pw}) => {
-    return axios.post(`/auth/updateUser`, {
+    return axios.patch(`/auth/updateUser`, {
         uid,
         pw,
     });
@@ -40,6 +40,14 @@ export const getZabbixGraph = ({uid, auth}) => {
     return axios.get(`/graph/zabbix`, { params: {uid, auth} });
 }
 
+/**
+    @param : uid
+    @param : auth
+    @param : serviceCd
+    @param : status
+    @param : startDt: moment(startDt).format('YYYYMMDD')
+    @param : endDt: moment(endDt).format('YYYYMMDD')
+ */
 export const getLogStatsApi = (selOptions) => {
     return axios.post(`/stats/log`, selOptions);
 }
@@ -48,6 +56,30 @@ export const getServiceListApi = ({uid, auth}) => {
     return axios.get(`/api/serviceList`, { params: {uid, auth} });
 }
 
-export const setServerControlApi = ({uid, auth}) => {
-    return axios.get(`/api/serviceList`, { params: {uid, auth} });
+/**
+    @param : uid
+    @param : auth
+    @param : zabbix
+    @param : posmant 
+    @param : sefilcare 
+    @param : checkserver
+ */
+export const setServerControlApi = (selOptions) => {
+    return axios.patch(`/api/authUpdate`, selOptions);
+}
+
+export const deleteEmailAddrApi = (uid) => {
+    return axios.delete(`/api/deleteEmailAddr`, uid);
+}
+
+export const addEmailAddrApi = (uid) => {
+    return axios.post(`/api/addEmailAddr`, uid);
+}
+
+export const deleteTelNumApi = (uid) => {
+    return axios.delete(`/api/deleteTelNum`, uid);
+}
+
+export const addTelNumApi = (uid) => {
+    return axios.post(`/api/addTelNum`, uid);
 }

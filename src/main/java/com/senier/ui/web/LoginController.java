@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -40,7 +41,7 @@ public class LoginController {
         return resultMap;
     }
 
-    @PostMapping("/auth/updateUser")
+    @PatchMapping("/auth/updateUser")
     public DataModel updateUser(@RequestBody DataModel dm) {
         logger.info("updateUser Params - {}", dm);
         DataModel resultMap = loginService.updateUser(dm);
