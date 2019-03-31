@@ -15,8 +15,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 @EnableCaching
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.senier.ui"})
-@MapperScan(value = {"com.senier.ui.persistence"})
+@ComponentScan(basePackages = { "com.senier.ui" })
+@MapperScan(value = { "com.senier.ui.persistence" })
 public class ParserUserInterfaceApplication {
 
 	public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class ParserUserInterfaceApplication {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 
 		sessionFactory.setDataSource(dataSource);
-		
+
 		Resource[] resource = new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml");
 		sessionFactory.setMapperLocations(resource);
 
