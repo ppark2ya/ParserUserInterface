@@ -4,7 +4,7 @@ class Zabbix extends Component {
     render() {
         return (
             <div>
-                
+                zabbix
             </div>
         );
     }

@@ -4,7 +4,7 @@ class Postman extends Component {
     render() {
         return (
             <div>
-                
+                post
             </div>
         );
     }

@@ -3,13 +3,20 @@ import { Switch, Route } from 'react-router-dom';
 import { LeftMenu } from '../../components/Main/LeftMenu/';
 import { Synthesis, CheckServer, SefilCare, Zabbix } from './graphs';
 import { NotFound } from 'pages';
+
+const links = [
+    "/main/graph/synthesis",
+    "/main/graph/checkserver",
+    "/main/graph/sefilcare",
+    "/main/graph/zabbix",
+];
 class Graph extends Component {
     state = {
         navList : [
-            {idx: 0, link: "/main/graph/synthesis", name: "Main", highlighted: true},
-            {idx: 1, link: "/main/graph/checkserver", name: "Check Server", highlighted: false},
-            {idx: 2, link: "/main/graph/sefilcare", name: "SefilCare", highlighted: false},
-            {idx: 3, link: "/main/graph/zabbix", name: "Zabbix", highlighted: false}
+            {idx: 0, link: links[0], name: "Main", highlighted: true},
+            {idx: 1, link: links[1], name: "Check Server", highlighted: false},
+            {idx: 2, link: links[2], name: "SefilCare", highlighted: false},
+            {idx: 3, link: links[3], name: "Zabbix", highlighted: false}
         ]
     };
 
@@ -52,10 +59,10 @@ class Graph extends Component {
                     handleActive={this.handleActive}
                 />
                 <Switch>
-                    <Route path="/main/graph/synthesis" component={Synthesis}></Route>
-                    <Route path="/main/graph/checkserver" component={CheckServer}></Route>
-                    <Route path="/main/graph/sefilcare" component={SefilCare}></Route>
-                    <Route path="/main/graph/zabbix" component={Zabbix}></Route>
+                    <Route path={links[0]} component={Synthesis}></Route>
+                    <Route path={links[1]} component={CheckServer}></Route>
+                    <Route path={links[2]} component={SefilCare}></Route>
+                    <Route path={links[3]} component={Zabbix}></Route>
                     <Route component={NotFound}/>
                 </Switch>
             </Fragment>

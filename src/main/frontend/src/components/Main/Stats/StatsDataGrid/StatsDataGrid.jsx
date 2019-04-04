@@ -75,7 +75,9 @@ class StatsDataGrid extends PureComponent {
               ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell  style={{ textAlign: 'center' }} colSpan={6}>
+                    No Data
+                  </TableCell>
                 </TableRow>
               )}
             </TableBody>

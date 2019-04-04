@@ -4,7 +4,7 @@ class CheckServer extends Component {
     render() {
         return (
             <div>
-                
+                check
             </div>
         );
     }

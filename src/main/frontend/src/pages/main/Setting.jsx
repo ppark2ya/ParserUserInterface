@@ -4,13 +4,19 @@ import { LeftMenu } from '../../components/Main/LeftMenu/';
 import { MyPage, ApiPage, Device, KeywordPage } from './settings';
 import { NotFound } from 'pages';
 
+const links = [
+    "/main/setting/myPage",
+    "/main/setting/apiPage",
+    "/main/setting/device",
+    "/main/setting/keywordPage",
+];
 class Setting extends Component {
     state = {
         navList : [
-            {idx: 0, link: "/main/setting/myPage", name: "My Page", highlighted: true},
-            {idx: 1, link: "/main/setting/apiPage", name: "API", highlighted: false},
-            {idx: 2, link: "/main/setting/device", name: "Device", highlighted: false},
-            {idx: 3, link: "/main/setting/keywordPage", name: "Keyword Value", highlighted: false}
+            {idx: 0, link: links[0], name: "My Page", highlighted: true},
+            {idx: 1, link: links[1], name: "API", highlighted: false},
+            {idx: 2, link: links[2], name: "Device", highlighted: false},
+            {idx: 3, link: links[3], name: "Keyword Value", highlighted: false}
         ]
     };
 
@@ -53,10 +59,10 @@ class Setting extends Component {
                     handleActive={this.handleActive}
                 />
                 <Switch>
-                    <Route path="/main/setting/myPage" component={MyPage}></Route>
-                    <Route path="/main/setting/apiPage" component={ApiPage}></Route>
-                    <Route path="/main/setting/device" component={Device}></Route>
-                    <Route path="/main/setting/keywordPage" component={KeywordPage}></Route>
+                    <Route path={links[0]} component={MyPage}></Route>
+                    <Route path={links[1]} component={ApiPage}></Route>
+                    <Route path={links[2]} component={Device}></Route>
+                    <Route path={links[3]} component={KeywordPage}></Route>
                     <Route component={NotFound}/>
                 </Switch>
             </Fragment>
