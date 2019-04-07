@@ -31,4 +31,5 @@ public interface MainMapper {
     public List<DataModel> zabbixGraph();
 
     public List<DataModel> getKeywordList(DataModel params);
+    public List<DataModel> zabbixGraphStaus_nm();
 }

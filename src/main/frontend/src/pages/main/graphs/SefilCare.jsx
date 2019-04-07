@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { getSefilCareGraph } from "../../../lib/api";
 import { Bar } from "react-chartjs-2";
 class SefilCare extends Component {
