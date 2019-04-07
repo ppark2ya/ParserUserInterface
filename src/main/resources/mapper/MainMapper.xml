@@ -192,14 +192,35 @@
         WHERE UID=#{uid}
     </update>
 
-    <select id="getCriticalServerCount" resultType="com.senier.ui.model.DataModel" parameterType="com.senier.ui.model.DataModel">
+    <select id="getCriticalServerCount" resultType="com.senier.ui.model.DataModel" parameterType="string">
         SELECT 
+            A.LOG_DT AS "log_dt",
             (SELECT DESC1 FROM TB_CODE WHERE CODE_CL = A.SERVICE_CD) AS "logType", 
-            COUNT(1) AS "cnt" 
-        FROM TB_LOG_HISTORY A 
-        WHERE A.LOG_PRIORITY = 'CRITICAL' 
-        AND A.LOG_DT >= (SELECT DATE_ADD(NOW(), INTERVAL -3 DAY) )
-        GROUP BY SERVICE_CD
+            A.CNT AS "cnt"
+        FROM(
+            SELECT LOG_DT, SERVICE_CD, COUNT(1) AS CNT
+              FROM TB_LOG_HISTORY 
+             WHERE 1=1 
+               AND LOG_PRIORITY = 'CRITICAL'
+               AND LOG_DT = #{date}
+            GROUP BY LOG_DT, SERVICE_CD
+            UNION ALL
+            SELECT #{date} AS LOG_DT, CODE_CL AS SERVICE_CD, 0 AS CNT
+              FROM TB_CODE  
+             WHERE 1=1
+               AND CODE_NM = 'SERVICE_CD'
+            GROUP BY SERVICE_CD
+        ) A
+        GROUP BY A.SERVICE_CD
     </select>
 
+    <select id="getBeforeThreeDate" resultType="string">
+        SELECT (CURDATE()-INTERVAL 3 DAY) AS "date"
+        UNION ALL
+        SELECT (CURDATE()-INTERVAL 2 DAY) AS "date"
+        UNION ALL
+        SELECT (CURDATE()-INTERVAL 1 DAY) AS "date"
+        UNION ALL
+        SELECT (CURDATE()-INTERVAL 0 DAY) AS "date"
+    </select>
 </mapper>

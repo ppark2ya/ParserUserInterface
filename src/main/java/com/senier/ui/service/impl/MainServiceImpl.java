@@ -9,8 +9,12 @@ import com.senier.ui.service.MainService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -295,21 +299,79 @@ public class MainServiceImpl implements MainService {
     @Override
     public DataModel getCriticalServerCount(DataModel params){
         DataModel resultMap = new DataModel();
-        try {
-            Iterator<DataModel> cdataLst = mainMapper.getCriticalServerCount(params).iterator();
-            
-            if(cdataLst.hasNext()) {
-                DataModel chartData = new DataModel();
-                
-                while(cdataLst.hasNext()) {
-                    DataModel cdata = cdataLst.next();
-                    chartData.put(cdata.getStrNull("logType"), cdata.get("cnt"));
-                }
+        List<DataModel> resultList = new ArrayList<>();
+        Iterator<DataModel> cdataLst = null;
 
-                resultMap.put("chartData", chartData);
+        try {
+            List<String> getDate = mainMapper.getBeforeThreeDate(); // 현재일~3일전 날짜 get
+            
+            List<Long> ZABBIX_list = new ArrayList<>();
+            List<Long> POSTMAN_list = new ArrayList<>();
+            List<Long> SEFILCARE_list = new ArrayList<>();
+            List<Long> CHECK_SERVER_list = new ArrayList<>();
+            
+            getDate
+                .stream()
+                .forEach( date -> {
+                resultList.addAll(mainMapper.getCriticalServerCount(date.replaceAll("-","")));
+            });
+            
+            if(resultList.size() > 0) {
+            	resultList.stream().forEach(model -> {
+                    String type = model.getStrNull("logType");
+                    // step 1. Data 집어넣기
+                    switch(type) {
+                        case "ZABBIX" : { 
+                            ZABBIX_list.add(model.getLong("cnt"));
+                            break ;
+                        }
+                        case "POSTMAN" : { 
+                            POSTMAN_list.add(model.getLong("cnt"));
+                            break ;
+                        }
+                        case "SEFILCARE" : { 
+                            SEFILCARE_list.add(model.getLong("cnt"));
+                            break ;
+                        }
+                        case "CHECK_SERVER" : { 
+                            CHECK_SERVER_list.add(model.getLong("cnt"));
+                            break ;
+                        }
+                    }
+            	});
+            	List<DataModel> chartData = new ArrayList<>();
+            	
+            	DataModel data1 = new DataModel();
+            	data1.put("label", "ZABBIX");
+                data1.put("data", ZABBIX_list);
+                data1.put("backgroundColor", "#008ae6");
+            	chartData.add(data1);
+            	
+            	DataModel data2 = new DataModel();
+            	data2.put("label", "POSTMAN");
+                data2.put("data", POSTMAN_list);
+                data2.put("backgroundColor", "#cecece");
+            	chartData.add(data2);
+            	
+            	DataModel data3 = new DataModel();
+            	data3.put("label", "SEFILCARE");
+                data3.put("data", SEFILCARE_list);
+                data3.put("backgroundColor", "#ffcc00");
+            	chartData.add(data3);
+            	
+            	DataModel data4 = new DataModel();
+            	data4.put("label", "CHECK_SERVER");
+                data4.put("data", CHECK_SERVER_list);
+                data4.put("backgroundColor", "#ff6600");
+            	chartData.add(data4);
+            	
+            	resultMap.put("labels", getDate);
+            	resultMap.put("chartData", chartData);
                 resultMap.putStrNull("result", CommonConstant.SUCCESS);
             }else {
                 logger.info("데이터 없음 !!");
+                
+                
                 String message = "데이터가 없습니다.";
                 resultMap.putStrNull("result", CommonConstant.FAIL);
                 resultMap.putStrNull("message", message);
@@ -319,7 +381,6 @@ public class MainServiceImpl implements MainService {
             String message = "관리자에게 문의하세요.";
             resultMap.putStrNull("result", CommonConstant.FAIL);
             resultMap.putStrNull("message", message);
-
         }
         return resultMap;
     }

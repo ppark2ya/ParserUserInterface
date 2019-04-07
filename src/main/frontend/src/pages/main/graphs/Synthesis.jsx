@@ -6,22 +6,8 @@ import produce from 'immer';
 class Synthesis extends Component {
     state = {
         chartData: {
-            labels : [],
-            datasets : [{
-                data : [],
-                backgroundColor : [
-                    '#008ae6',
-                    '#cecece',
-                    '#ffcc00',
-                    '#ff6600'
-                ],
-                hoverBackgroundColor: [
-                    '#008ae6',
-                    '#cecece',
-                    '#ffcc00',
-                    '#ff6600'
-                ]
-            }]
+            labels: [],
+            datasets : []
         },
         options : {
             title : {
@@ -53,17 +39,16 @@ class Synthesis extends Component {
     componentDidMount = async () => {
         try{
             const response = await getCriticalServerList();
-            const { result, chartData, message } = response.data;
+            const { result, labels, chartData, message } = response.data;
 
             if(result === "SUCCESS") {
-                const [ labels, data ] = [ Object.keys(chartData), Object.values(chartData) ];
-                
+
                 this.setState(
                     produce(draft => {
                         draft.chartData.labels = labels;
-                        draft.chartData.datasets[0].data = data;
+                        draft.chartData.datasets = chartData;
                     })
-                );
+                )
             } else {
                 console.error(response);
                 alert(message);
