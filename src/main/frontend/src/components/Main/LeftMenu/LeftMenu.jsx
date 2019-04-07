@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom'
 import MenuItem from './MenuItem';
 
-class LeftMenu extends Component {
+class LeftMenu extends PureComponent {
     componentDidMount() {
         const { location: {pathname}, history } = this.props;
         

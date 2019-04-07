@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import KeywordDataTable from '../KeywordDataTable';
 
-class Postman extends Component {
-    render() {
-        return (
-            <div>
-                post
-            </div>
-        );
-    }
+const Postman = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage, toggleUsage }) => {
+    return (
+        <KeywordDataTable
+            rows={rows}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            toggleUsage={toggleUsage}
+        />
+    );
 }
 
 export default Postman;

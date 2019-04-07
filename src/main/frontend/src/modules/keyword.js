@@ -1,11 +1,17 @@
 import produce from 'immer';
 import { handleActions, createAction } from 'redux-actions';
-import { getUserInfoApi } from '../lib/api';
+import { getKeywordListApi, toggleUsageApi } from '../lib/api';
 import { applyPenders } from 'redux-pender/lib/utils';
 
-const SET_EMAIL = 'device/SET_EMAIL';
+const SET_PAGE= 'keyword/SET_PAGE';
+const SET_ROWS_PER_PAGE= 'keyword/SET_ROWS_PER_PAGE';
+const GET_KEYWORDLIST = 'keyword/GET_KEYWORDLIST';
+const TOGGLE_USAGE = 'keyword/TOGGLE_USAGE';
 
-export const setEmail = createAction(SET_EMAIL);
+export const setPage = createAction(SET_PAGE);
+export const setRowsPerPage = createAction(SET_ROWS_PER_PAGE);
+export const getKeywordList = createAction(GET_KEYWORDLIST, getKeywordListApi);
+export const toggleUsage = createAction(TOGGLE_USAGE, toggleUsageApi);
 
 const initialState = {
     plainTel: '',
@@ -13,33 +19,59 @@ const initialState = {
     tel: '',
     email: '',
     data: {
-        result: 'FAIL'
+        result: 'FAIL',
+        checkServerList : [],
+        sefilcareList : [],
+        zabbixList : [],
+        postmanList : [],
+        page: 0,
+        rowsPerPage: 10,
     },
 };
 
 const reducer = handleActions({
-    [SET_EMAIL]: (state, { payload }) => {
+    [SET_PAGE]: (state, { payload }) => {
         return produce(state, draft => {
-            draft.email = payload;
-        })
+            draft.data.page = payload;
+        });
+    },
+    [SET_ROWS_PER_PAGE]: (state, { payload }) => {
+        return produce(state, draft => {
+            const { page, rowsPerPage } = payload;
+            draft.data.page = page;
+            draft.data.rowsPerPage = rowsPerPage;
+        });
     },
 }, initialState);
 
 export default applyPenders(reducer, [
     {
-        type: SET_EMAIL,
+        type: GET_KEYWORDLIST,
         onSuccess: (state, { payload: { data } }) => { 
-            const { result, telNum, email } = data;
+            const { result } = data;
 
             if(result === "FAIL") {
                 alert('서버 에러! 관리자에게 문의하세요');
             }
 
             return produce(state, draft => {
-                draft.tel = telNum;
-                draft.email = email;
-                draft.plainTel = telNum;
-                draft.plainEmail = email;
+                draft.data.result = result;
+            });
+        },
+        onFailure: (state, { payload: { response } }) => { 
+            alert('서버 에러! 관리자에게 문의하세요');
+        }, 
+    }, 
+    {
+        type: TOGGLE_USAGE,
+        onSuccess: (state, { payload: { data } }) => { 
+            const { result } = data;
+
+            if(result === "FAIL") {
+                alert('서버 에러! 관리자에게 문의하세요');
+            }
+
+            return produce(state, draft => {
                 draft.data.result = result;
             });
         },

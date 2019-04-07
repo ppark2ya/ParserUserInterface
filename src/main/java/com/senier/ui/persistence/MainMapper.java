@@ -29,4 +29,6 @@ public interface MainMapper {
     public List<DataModel> SefilCareGraph();
 
     public List<DataModel> zabbixGraph();
+
+    public List<DataModel> getKeywordList(DataModel params);
 }

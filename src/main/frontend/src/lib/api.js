@@ -93,3 +93,11 @@ export const addTelNumApi = ({uid, tel}) => {
 export const getCriticalServerList = () =>{
     return axios.get(`/api/getCriticalServerData`);
 }
+
+export const getKeywordListApi = ({uid, auth}) =>{
+    return axios.get(`/api/getKeywordList`, { params: {uid, auth} });
+}
+
+export const toggleUsageApi = (keyword) =>{
+    return axios.patch(`/api/toggleUsageApi`, { keyword } );
+}

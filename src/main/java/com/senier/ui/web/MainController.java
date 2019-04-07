@@ -205,4 +205,15 @@ public class MainController {
         return mainService.addTelNum(params);
     }
 
+    @GetMapping("/api/getKeywordList")
+    public DataModel getKeywordList(
+        @RequestParam(name = "uid", required = true) String uid,
+        @RequestParam(name = "auth", required = true) String auth
+    ){
+        DataModel params = new DataModel();
+        params.putStrNull("uid", uid);
+        params.putStrNull("auth", auth);
+        return mainService.getKeywordList(params);
+    }
+
 }

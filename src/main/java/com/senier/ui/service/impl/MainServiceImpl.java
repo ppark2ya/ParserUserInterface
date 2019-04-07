@@ -429,4 +429,28 @@ public class MainServiceImpl implements MainService {
         }
         return resultMap;
     }
+
+    @Override
+    public DataModel getKeywordList(DataModel params) {
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        try {
+            List<DataModel> getKeywordList = mainMapper.getKeywordList(params);
+
+            if(getKeywordList != null && getKeywordList.size() > 0) {
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putAll(params);
+            } else {
+                logger.error("GET KEYWORDLIST 에러 발생");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("GET KEYWORDLIST 에러 발생 - {}");
+            e.printStackTrace();
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
 }

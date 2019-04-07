@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { CheckServer } from '../components/Main/Keyword/CheckServer';
 import { Sefilcare } from '../components/Main/Keyword/Sefilcare';
 import { Zabbix } from '../components/Main/Keyword/Zabbix';
@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const StyledWrapper = styled.div`
-    width: 100%;
+    width: 80%;
 `;
 
 const links = [
@@ -33,6 +33,11 @@ class KeywordContainer extends PureComponent {
             {idx: 3, link: links[3], name: "포스트맨", highlighted: false}
         ]
     };
+
+    static propTypes = {
+        result: PropTypes.string,
+        KeywordActions: PropTypes.object.isRequired,
+    }
 
     /**
      * 현재 보여지는 메뉴의 css값 변경
@@ -64,24 +69,114 @@ class KeywordContainer extends PureComponent {
         this.activeMenu(idx);
     }
 
-    static propTypes = {
-        result: PropTypes.string,
-        KeywordActions: PropTypes.object.isRequired,
+    handleChangePage = (event, page) => {
+        const { KeywordActions } = this.props;
+        KeywordActions.setPage(page);
+    }
+    
+    handleChangeRowsPerPage = event => {
+        const { KeywordActions } = this.props;
+        KeywordActions.setRowsPerPage({ page: 0, rowsPerPage: event.target.value });
+    }
+
+    toggleUsage = (serviceCd, keyword) => {
+
+    }
+
+    componentDidMount = async () => {
+        const { location: {pathname}, history } = this.props;
+        const { KeywordActions } = this.props;
+
+        // const response = await KeywordActions.getKeywordList(sessionStorage);
+
+        // if(response.data.result !== "SUCCESS") {
+
+        // 로그인 직후 /main 경로로 redirect되면 home component를 보여준다.
+        if(pathname === '/main/setting/keywordPage') {
+            history.push(links[0]);
+
+        } else { // 새로고침시에도 path따라 css를 바꿔준다.
+            this.activeMenu(undefined, pathname);
+        }
+
+        
     }
 
     render() {
+        const { 
+            handleChangePage,
+            handleChangeRowsPerPage,
+            toggleUsage,
+            activeMenu,
+            handleActive,
+            state : { navList },
+            props : { checkServerList, sefilcareList, zabbixList, postmanList, page, rowsPerPage }
+        } = this;
+
         return (
             <StyledWrapper>
                 <Header
-                    navList={this.state.navList}
-                    activeMenu={this.activeMenu}
-                    handleActive={this.handleActive}
+                    navList={navList}
+                    activeMenu={activeMenu}
+                    handleActive={handleActive}
                 />
                 <Switch>
-                    <Route path={links[0]} component={CheckServer}></Route>
-                    <Route path={links[1]} component={Sefilcare}></Route>
-                    <Route path={links[2]} component={Zabbix}></Route>
-                    <Route path={links[3]} component={Postman}></Route>
+                    <Route 
+                        path={links[0]} 
+                        render={ 
+                            props => 
+                            <CheckServer 
+                                rows={checkServerList}
+                                handleChangePage={handleChangePage} 
+                                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                                toggleUsage={toggleUsage}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                            /> 
+                        } 
+                    />
+                    <Route 
+                        path={links[1]} 
+                        render={ 
+                            props => 
+                            <Sefilcare 
+                                rows={sefilcareList}
+                                handleChangePage={handleChangePage} 
+                                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                                toggleUsage={toggleUsage}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                            /> 
+                        } 
+                    />
+                    <Route 
+                        path={links[2]} 
+                        render={ 
+                            props => 
+                            <Zabbix 
+                                rows={zabbixList}
+                                handleChangePage={handleChangePage} 
+                                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                                toggleUsage={toggleUsage}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                            /> 
+                        } 
+                    />
+                    <Route 
+                        path={links[3]} 
+                        render={ 
+                            props => 
+                            <Postman 
+                                rows={postmanList}
+                                handleChangePage={handleChangePage} 
+                                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                                toggleUsage={toggleUsage}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                            /> 
+                        } 
+                    />
                     <Route component={NotFound}/>
                 </Switch>
             </StyledWrapper>
@@ -89,11 +184,17 @@ class KeywordContainer extends PureComponent {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     (state) => ({
-        result: state.service.data.result
+        result: state.keyword.data.result,
+        checkServerList : state.keyword.data.checkServerList,
+        sefilcareList : state.keyword.data.sefilcareList,
+        zabbixList : state.keyword.data.zabbixList,
+        postmanList : state.keyword.data.postmanList,
+        page: state.keyword.data.page,
+        rowsPerPage: state.keyword.data.rowsPerPage,
     }),
     (dispatch) => ({
         KeywordActions: bindActionCreators(keywordActions, dispatch),
     })
-)(KeywordContainer);
+)(KeywordContainer));

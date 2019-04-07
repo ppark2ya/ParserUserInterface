@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import KeywordDataTable from '../KeywordDataTable';
 
-class Sefilcare extends Component {
-    render() {
-        return (
-            <div>
-                sefil
-            </div>
-        );
-    }
+const Sefilcare = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage, toggleUsage }) => {
+    return (
+        <KeywordDataTable
+            rows={rows}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            toggleUsage={toggleUsage}
+        />
+    );
 }
 
 export default Sefilcare;

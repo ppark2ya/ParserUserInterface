@@ -23,5 +23,6 @@ public interface MainService {
     public DataModel addEmailAddr(DataModel params);
     public DataModel deleteTelNum(DataModel params);
     public DataModel addTelNum(DataModel params);
+    public DataModel getKeywordList(DataModel params);
 
 }

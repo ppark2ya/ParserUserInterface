@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom'
 import HeaderItem from './HeaderItem';
 
-class Header extends Component {
+class Header extends PureComponent {
     componentDidMount() {
         const { location: {pathname}, history } = this.props;
         
