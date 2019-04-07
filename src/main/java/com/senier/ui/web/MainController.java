@@ -216,4 +216,9 @@ public class MainController {
         return mainService.getKeywordList(params);
     }
 
+    @PatchMapping("/api/toggleUsage")
+    public DataModel toggleUsage(@RequestBody DataModel params) {
+        logger.info("toggleUsage Params : {}", params);
+        return mainService.toggleUsage(params);
+    }
 }

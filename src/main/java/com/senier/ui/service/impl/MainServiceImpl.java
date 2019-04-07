@@ -438,11 +438,32 @@ public class MainServiceImpl implements MainService {
         DataModel resultMap = new DataModel();
         String message = "관리자에게 문의하세요.";
         try {
+            getUserAuth(params);
             List<DataModel> getKeywordList = mainMapper.getKeywordList(params);
 
             if(getKeywordList != null && getKeywordList.size() > 0) {
+                List<DataModel> checkServerList = new ArrayList<>();
+                List<DataModel> sefilcareList = new ArrayList<>();
+                List<DataModel> zabbixList = new ArrayList<>();
+                List<DataModel> postmanList = new ArrayList<>();
+
+                getKeywordList.forEach(dm -> {
+                    if(dm.getStrNull("serviceCd").equals(CommonConstant.CHECKSERVER_CODE)) {
+                        checkServerList.add(dm);
+                    } else if(dm.getStrNull("serviceCd").equals(CommonConstant.SEFILCARE_CODE)) {
+                        sefilcareList.add(dm);
+                    } else if(dm.getStrNull("serviceCd").equals(CommonConstant.ZABBIX_CODE)) {
+                        zabbixList.add(dm);
+                    } else if(dm.getStrNull("serviceCd").equals(CommonConstant.POSTMAN_CODE)) {
+                        postmanList.add(dm);
+                    }
+                });
+
                 resultMap.putStrNull("result", CommonConstant.SUCCESS);
-                resultMap.putAll(params);
+                resultMap.put("checkServerList", checkServerList);
+                resultMap.put("sefilcareList", sefilcareList);
+                resultMap.put("zabbixList", zabbixList);
+                resultMap.put("postmanList", postmanList);
             } else {
                 logger.error("GET KEYWORDLIST 에러 발생");
                 resultMap.putStrNull("result", CommonConstant.FAIL);
@@ -456,4 +477,30 @@ public class MainServiceImpl implements MainService {
         }
         return resultMap;
     }
+
+    @Override
+    public DataModel toggleUsage(DataModel params) {
+        DataModel resultMap = new DataModel();
+        String message = "관리자에게 문의하세요.";
+        try {
+            int cnt = mainMapper.toggleUsage(params);
+
+            if(cnt > 0) {
+                resultMap.put("chgKeywordInfo", mainMapper.getKeywordInfo(params));
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+                resultMap.putStrNull("serviceCd", params.getStrNull("serviceCd"));
+            } else {
+                logger.error("TOGGLE USAGE 에러 발생");
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+                resultMap.putStrNull("message", message);
+            }
+        } catch(Exception e) {
+            logger.error("TOGGLE USAGE 에러 발생 - {}");
+            e.printStackTrace();
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+            resultMap.putStrNull("message", message);
+        }
+        return resultMap;
+    }
+
 }

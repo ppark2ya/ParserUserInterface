@@ -24,5 +24,5 @@ public interface MainService {
     public DataModel deleteTelNum(DataModel params);
     public DataModel addTelNum(DataModel params);
     public DataModel getKeywordList(DataModel params);
-
+    public DataModel toggleUsage(DataModel params);
 }

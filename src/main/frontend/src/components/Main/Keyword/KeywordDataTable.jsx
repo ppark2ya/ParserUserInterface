@@ -10,6 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { default as TablePaginationActionsWrapped } from '../Stats/StatsDataGrid/TablePaginationActions';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,10 @@ const styles = theme => ({
   },
   pagination: {
     width: '65%',
-  }
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 const CustomTableCell = withStyles(theme => ({
@@ -45,7 +49,7 @@ const CustomTableCell = withStyles(theme => ({
 
 class KeywordDataTable extends PureComponent {
   render() {
-    const { classes, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage } = this.props;
+    const { classes, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage, toggleUsage } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
@@ -55,17 +59,21 @@ class KeywordDataTable extends PureComponent {
             <TableHead>
                 <TableRow>
                     <CustomTableCell className={classes.keyWidth} align="center">Keyword</CustomTableCell>
-                    <CustomTableCell className={classes.ynWidth} align="center">Y/N</CustomTableCell>
+                    <CustomTableCell className={classes.ynWidth} align="center">Y / N</CustomTableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, idx) => (
                 <TableRow key={idx}>
                   <TableCell align="center">{row.keyword}</TableCell>
-                  <TableCell align="center">button</TableCell>
+                  <TableCell align="center">
+                    <Button color={(row.useCl === '1')? 'primary' : 'secondary'} className={classes.button} onClick={() => toggleUsage(row.keyword, row.serviceCd, row.useCl)}>
+                      {(row.useCl === '1')? '사용 중' : '미사용 중'}
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
-              {emptyRows > 0 && (
+              {emptyRows === 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
                   <TableCell  style={{ textAlign: 'center' }} colSpan={6}>
                     No Data

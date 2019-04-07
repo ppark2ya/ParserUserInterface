@@ -14,10 +14,6 @@ export const getKeywordList = createAction(GET_KEYWORDLIST, getKeywordListApi);
 export const toggleUsage = createAction(TOGGLE_USAGE, toggleUsageApi);
 
 const initialState = {
-    plainTel: '',
-    plainEmail: '',
-    tel: '',
-    email: '',
     data: {
         result: 'FAIL',
         checkServerList : [],
@@ -48,15 +44,20 @@ export default applyPenders(reducer, [
     {
         type: GET_KEYWORDLIST,
         onSuccess: (state, { payload: { data } }) => { 
-            const { result } = data;
+            const { result, checkServerList, sefilcareList, zabbixList, postmanList } = data;
 
             if(result === "FAIL") {
                 alert('서버 에러! 관리자에게 문의하세요');
+            } else {
+                return produce(state, draft => {
+                    draft.data.result = result;
+                    draft.data.checkServerList = checkServerList;
+                    draft.data.sefilcareList = sefilcareList;
+                    draft.data.zabbixList = zabbixList;
+                    draft.data.postmanList = postmanList;
+                });
             }
 
-            return produce(state, draft => {
-                draft.data.result = result;
-            });
         },
         onFailure: (state, { payload: { response } }) => { 
             alert('서버 에러! 관리자에게 문의하세요');
@@ -65,15 +66,25 @@ export default applyPenders(reducer, [
     {
         type: TOGGLE_USAGE,
         onSuccess: (state, { payload: { data } }) => { 
-            const { result } = data;
-
+            const { result, serviceCd, chgKeywordInfo } = data;
+            
             if(result === "FAIL") {
                 alert('서버 에러! 관리자에게 문의하세요');
+            } else {
+                return produce(state, draft => {
+                    if(serviceCd === '00') {
+                        draft.data.zabbixList = chgKeywordInfo;
+                    } else if(serviceCd === '01') {
+                        draft.data.postmanList = chgKeywordInfo;
+                    } else if(serviceCd === '02') {
+                        draft.data.sefilcareList = chgKeywordInfo;
+                    } else if(serviceCd === '03') {
+                        draft.data.checkServerList = chgKeywordInfo;
+                    }
+                    draft.data.result = result;
+                });
             }
 
-            return produce(state, draft => {
-                draft.data.result = result;
-            });
         },
         onFailure: (state, { payload: { response } }) => { 
             alert('서버 에러! 관리자에게 문의하세요');

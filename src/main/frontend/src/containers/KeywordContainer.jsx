@@ -79,17 +79,19 @@ class KeywordContainer extends PureComponent {
         KeywordActions.setRowsPerPage({ page: 0, rowsPerPage: event.target.value });
     }
 
-    toggleUsage = (serviceCd, keyword) => {
+    toggleUsage = async (keyword, serviceCd, useCl) => {
+        const { KeywordActions } = this.props;
 
+        if(window.confirm('상태를 바꾸시겠습니까? ')) {
+            await KeywordActions.toggleUsage(keyword, serviceCd, (useCl === '1')? '0' : '1');
+        }
     }
 
     componentDidMount = async () => {
         const { location: {pathname}, history } = this.props;
         const { KeywordActions } = this.props;
 
-        // const response = await KeywordActions.getKeywordList(sessionStorage);
-
-        // if(response.data.result !== "SUCCESS") {
+        await KeywordActions.getKeywordList(sessionStorage);
 
         // 로그인 직후 /main 경로로 redirect되면 home component를 보여준다.
         if(pathname === '/main/setting/keywordPage') {
@@ -98,8 +100,6 @@ class KeywordContainer extends PureComponent {
         } else { // 새로고침시에도 path따라 css를 바꿔준다.
             this.activeMenu(undefined, pathname);
         }
-
-        
     }
 
     render() {

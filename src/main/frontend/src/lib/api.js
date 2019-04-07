@@ -98,6 +98,6 @@ export const getKeywordListApi = ({uid, auth}) =>{
     return axios.get(`/api/getKeywordList`, { params: {uid, auth} });
 }
 
-export const toggleUsageApi = (keyword) =>{
-    return axios.patch(`/api/toggleUsageApi`, { keyword } );
+export const toggleUsageApi = (keyword, serviceCd, useCl) =>{
+    return axios.patch(`/api/toggleUsage`, { keyword, serviceCd, useCl } );
 }

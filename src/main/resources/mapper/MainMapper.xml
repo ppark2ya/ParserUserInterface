@@ -114,11 +114,6 @@
         WHERE serviceCd IN (#{ZABBIX}, #{POSTMAN}, #{SEFILCARE}, #{CHECK_SERVER})
     </select>
 
-    <select id="getSynthesisGraph" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
-        SELECT *
-        FROM TB_LISTENING_SERVERS
-    </select>
-
     <select id="getCheckServerGraph" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
         SELECT 
             CASE WHEN (LOG_TYPE != 401)
@@ -133,16 +128,6 @@
             WHERE S.USE_CL='1' AND L.SERVICE_CD='03' AND L.LOG_PRIORITY = 'CRITICAL'
             GROUP BY LOG_TYPE
         ) RSLT
-    </select>
-
-    <select id="getSefilCareGraph" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
-        SELECT *
-        FROM TB_LISTENING_SERVERS
-    </select>
-
-    <select id="getZabbixGraph" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
-        SELECT *
-        FROM TB_LISTENING_SERVERS
     </select>
 
     <select id="getLogStats" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
@@ -226,151 +211,313 @@
     </select>
 
     <select id="SefilCareGraph" resultType="com.senier.ui.model.DataModel">
-       select tb.date as 'day' , count as "count" from(
-             SELECT (CURDATE()-INTERVAL 6 DAY) AS "date" ,
-             count(*) as "count" 
-                FROM TB_LOG_HISTORY  
-                    where service_cd = '02' 
-                    and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -6 DAY),'%Y-%m-%d')
-        union all 
-          SELECT (CURDATE()-INTERVAL 5 DAY) AS "date" ,
-          count(*) as "count"
-            FROM TB_LOG_HISTORY  
-                where service_cd = '02'
-                and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -5 DAY),'%Y-%m-%d')
-        union all 
-          SELECT (CURDATE()-INTERVAL 4 DAY) AS "date" ,
-          count(*) as "count"
-            FROM TB_LOG_HISTORY
-                where service_cd = '02'
-                and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -4 DAY),'%Y-%m-%d')
-        union all 
-          SELECT (CURDATE()-INTERVAL 3 DAY) AS "date" , 
-          count(*) as "count" 
-            FROM TB_LOG_HISTORY  
-                where service_cd = '02' 
-                and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -3 DAY),'%Y-%m-%d')
-        union all 
-          SELECT (CURDATE()-INTERVAL 2 DAY) AS "date" ,
-          count(*) as "count"
-             FROM TB_LOG_HISTORY  
-                where service_cd = '02' 
-                and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -2 DAY),'%Y-%m-%d')
-        union all 
-           SELECT (CURDATE()-INTERVAL 1 DAY) AS "date" ,
-           count(*) as "count"
-             FROM TB_LOG_HISTORY  
-                where service_cd = '02'
-                and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -1 DAY),'%Y-%m-%d')
-        union all 
-          SELECT (CURDATE()-INTERVAL 0 DAY) AS "date" ,
-           count(*) as "count"
-              FROM TB_LOG_HISTORY
-                where service_cd = '02' 
-                and date_format(LOG_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL  0 DAY),'%Y-%m-%d')
+        SELECT 
+            tb.date as 'day',
+            COUNT as "count" 
+        FROM (
+            SELECT 
+                (CURDATE()-INTERVAL 6 DAY) AS "date" ,
+                COUNT(*) as "count" 
+            FROM 
+                TB_LOG_HISTORY  
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -6 DAY),'%Y-%m-%d')
+
+            UNION ALL 
+
+            SELECT 
+                (CURDATE()-INTERVAL 5 DAY) AS "date" ,
+                COUNT(*) as "count"
+            FROM 
+                TB_LOG_HISTORY  
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -5 DAY),'%Y-%m-%d')
+
+            UNION ALL 
+
+            SELECT 
+                (CURDATE()-INTERVAL 4 DAY) AS "date" ,
+                COUNT(*) as "count"
+            FROM 
+                TB_LOG_HISTORY
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -4 DAY),'%Y-%m-%d')
+
+            UNION ALL 
+
+            SELECT 
+                (CURDATE()-INTERVAL 3 DAY) AS "date" , 
+                COUNT(*) as "count" 
+            FROM 
+                TB_LOG_HISTORY  
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -3 DAY),'%Y-%m-%d')
+
+            UNION ALL 
+
+            SELECT 
+                (CURDATE()-INTERVAL 2 DAY) AS "date" ,
+                COUNT(*) as "count"
+            FROM 
+                TB_LOG_HISTORY  
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -2 DAY),'%Y-%m-%d')
+
+            UNION ALL 
+
+            SELECT 
+                (CURDATE()-INTERVAL 1 DAY) AS "date" ,
+                COUNT(*) as "count"
+            FROM 
+                TB_LOG_HISTORY  
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -1 DAY),'%Y-%m-%d')
+
+            UNION ALL 
+
+            SELECT 
+                (CURDATE()-INTERVAL 0 DAY) AS "date" ,
+                COUNT(*) as "count"
+            FROM 
+                TB_LOG_HISTORY
+            WHERE 
+                SERVICE_CD = '02' AND DATE_FORMAT(LOG_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL  0 DAY),'%Y-%m-%d')
         ) tb
     </select>
+
     <select id="zabbixGraph" resultType="com.senier.ui.model.DataModel" >
-          select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -0 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
+        SELECT 
+            a.UPD_DT as day, 
+            a.status_nm,
+            a.cnt as count 
+        FROM ( 
+            SELECT 
+                DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+            FROM 
+                TB_ERROR_STATUS  
+            WHERE 
+                1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -0 DAY),'%Y-%m-%d')
+            GROUP BY 
+                UPD_DT, STATUS_NM
+
             UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 0 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
-            union all 
-            select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -1 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
-            UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 1 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
-                union all 
-            select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -2 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
-            UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 2 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
-                union all 
-                select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -3 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
-            UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 3 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
-                union all 
-            select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -4 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
-            UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 4 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
-                union all 
-            select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -5 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
-            UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 5 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
-                union all 
-            select a.UPD_DT as day , a.status_nm ,a.cnt as count from ( 
-            SELECT date_format(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
-            FROM TB_ERROR_STATUS  
-            WHERE 1=1 
-                AND date_format(UPD_DT,'%Y-%m-%d') = date_format(DATE_ADD(now(), INTERVAL -6 DAY),'%Y-%m-%d')
-            GROUP BY UPD_DT, STATUS_NM
-            UNION ALL
-            SELECT date_format((CURDATE()-INTERVAL 6 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
-            FROM TB_ERROR_STATUS
-            WHERE 1=1
-                AND UPD_DT > date_add(now(),interval -6 day)
-            GROUP BY STATUS_NM
-            )a group by a.status_nm
+
+            SELECT 
+                DATE_FORMAT((CURDATE()-INTERVAL 0 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+            FROM 
+                TB_ERROR_STATUS
+            WHERE 
+                1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+            GROUP BY 
+                STATUS_NM
+            ) a 
+            GROUP BY 
+                a.status_nm
+
+            UNION ALL 
+
+            SELECT 
+                a.UPD_DT as day,
+                a.status_nm,
+                a.cnt as count 
+            FROM ( 
+                SELECT 
+                    DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+                FROM TB_ERROR_STATUS
+                WHERE 
+                    1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -1 DAY),'%Y-%m-%d')
+                GROUP BY 
+                    UPD_DT, STATUS_NM
+
+                UNION ALL
+
+                SELECT 
+                    DATE_FORMAT((CURDATE()-INTERVAL 1 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+                FROM 
+                    TB_ERROR_STATUS
+                WHERE 
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                GROUP BY 
+                    STATUS_NM
+            ) a 
+            GROUP BY a.status_nm
+
+            UNION ALL 
+
+            SELECT 
+                a.UPD_DT as day,
+                a.status_nm,
+                a.cnt as count 
+            FROM ( 
+                SELECT
+                    DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+                FROM 
+                    TB_ERROR_STATUS  
+                WHERE 
+                    1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -2 DAY),'%Y-%m-%d')
+                GROUP BY 
+                    UPD_DT, STATUS_NM
+
+                UNION ALL
+
+                SELECT 
+                    DATE_FORMAT((CURDATE()-INTERVAL 2 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+                FROM TB_ERROR_STATUS
+                WHERE 
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                GROUP BY 
+                    STATUS_NM
+                ) a 
+            GROUP BY a.status_nm
+
+            UNION ALL 
+
+            SELECT 
+                a.UPD_DT as day,
+                a.status_nm,
+                a.cnt as count 
+            FROM ( 
+                SELECT 
+                    DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+                FROM
+                    TB_ERROR_STATUS  
+                WHERE 
+                    1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -3 DAY),'%Y-%m-%d')
+                GROUP BY 
+                    UPD_DT, STATUS_NM
+
+                UNION ALL
+
+                SELECT 
+                    DATE_FORMAT((CURDATE()-INTERVAL 3 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+                FROM TB_ERROR_STATUS
+                WHERE 
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                GROUP BY 
+                    STATUS_NM
+            ) a 
+            GROUP BY 
+                a.status_nm
+            UNION ALL 
+            SELECCT
+                a.UPD_DT as day,
+                a.status_nm,
+                a.cnt as count 
+            FROM ( 
+                SELECT
+                    DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+                FROM TB_ERROR_STATUS  
+                WHERE 
+                    1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -4 DAY),'%Y-%m-%d')
+                GROUP BY 
+                    UPD_DT, STATUS_NM
+
+                UNION ALL
+                SELECT
+                    DATE_FORMAT((CURDATE()-INTERVAL 4 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+                FROM 
+                    TB_ERROR_STATUS
+                WHERE
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                GROUP BY 
+                    STATUS_NM
+            ) a 
+            GROUP BY 
+                a.status_nm
+
+            UNION ALL 
+
+            SELECT 
+                a.UPD_DT as day,
+                a.status_nm,
+                a.cnt as count 
+            FROM ( 
+                SELECT 
+                    DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+                FROM 
+                    TB_ERROR_STATUS  
+                WHERE 
+                    1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -5 DAY),'%Y-%m-%d')
+                GROUP BY 
+                    UPD_DT, STATUS_NM
+
+                UNION ALL
+
+                SELECT 
+                    DATE_FORMAT((CURDATE()-INTERVAL 5 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+                FROM 
+                    TB_ERROR_STATUS
+                WHERE 
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                GROUP BY 
+                    STATUS_NM
+            ) a 
+            GROUP BY 
+                a.status_nm
+
+            UNION ALL 
+
+            SELECT
+                a.UPD_DT as day,
+                a.status_nm,
+                a.cnt as count
+            FROM ( 
+                SELECT 
+                    DATE_FORMAT(UPD_DT,'%Y-%m-%d') AS UPD_DT, STATUS_NM, COUNT(1) AS CNT
+                FROM 
+                    TB_ERROR_STATUS  
+                WHERE 
+                    1=1 AND DATE_FORMAT(UPD_DT,'%Y-%m-%d') = DATE_FORMAT(DATE_ADD(now(), INTERVAL -6 DAY),'%Y-%m-%d')
+                GROUP BY 
+                    UPD_DT, STATUS_NM
+
+                UNION ALL
+
+                SELECT 
+                    DATE_FORMAT((CURDATE()-INTERVAL 6 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
+                FROM 
+                    TB_ERROR_STATUS
+                WHERE 
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                GROUP BY STATUS_NM
+            ) a 
+            GROUP BY a.status_nm
     </select>
 
-    <select id="zabbixGraphStaus_nm" resultType="com.senier.ui.model.DataModel" >
-    select status_nm from TB_ERROR_STATUS where  UPD_DT > date_add(now(),interval -6 day) group by status_nm
+    <select id="zabbixGraphStaus_nm" resultType="com.senier.ui.model.DataModel">
+        SELECT STATUS_NM 
+        FROM TB_ERROR_STATUS 
+        WHERE UPD_DT > DATE_ADD(now(),INTERVAL -6 day) 
+        GROUP BY STATUS_NM
+    </select>
+
+    <select id="getKeywordList" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
+        SELECT 
+            KEYWORD as "keyword", 
+            SERVICE_CD as "serviceCd",
+            USE_CL as "useCl"
+        FROM 
+            TB_KEYWORD
+        WHERE 
+            EXCEPTION_ATTR LIKE '%CRITICAL%' AND SERVICE_CD IN (#{ZABBIX}, #{POSTMAN}, #{SEFILCARE}, #{CHECK_SERVER})
+        ORDER BY
+            serviceCd
+    </select>
+
+    <update id="toggleUsage" parameterType="com.senier.ui.model.DataModel">
+        UPDATE TB_KEYWORD
+        SET USE_CL = #{useCl}
+        WHERE KEYWORD = #{keyword} AND SERVICE_CD = #{serviceCd}
+    </update>
+
+    <select id="getKeywordInfo" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
+        SELECT
+            KEYWORD as "keyword", 
+            SERVICE_CD as "serviceCd",
+            USE_CL as "useCl"
+        FROM 
+            TB_KEYWORD
+        WHERE 
+            SERVICE_CD = #{serviceCd} AND EXCEPTION_ATTR LIKE '%CRITICAL%' 
     </select>
 </mapper>
