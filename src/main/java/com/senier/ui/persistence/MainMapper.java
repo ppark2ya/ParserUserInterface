@@ -23,7 +23,6 @@ public interface MainMapper {
     public int deleteTelNum(DataModel params);
     // 전화번호 추가
     public int addTelNum(DataModel params);
-    public List<DataModel> getCriticalServerCount(DataModel params);
     // Graph > Sefilcare 차트 데이터
     public List<DataModel> SefilCareGraph();
     // Graph > Zabbix 차트 데이터
@@ -36,4 +35,6 @@ public interface MainMapper {
     public int toggleUsage(DataModel params);
     // 변경된 키워드 정보
     public List<DataModel> getKeywordInfo(DataModel params);
+    public List<DataModel> getCriticalServerCount(String date);
+    public List<String> getBeforeThreeDate();
 }
