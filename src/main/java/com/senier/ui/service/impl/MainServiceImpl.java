@@ -170,7 +170,10 @@ public class MainServiceImpl implements MainService {
             // getUserAuth(params);
             resultMap.putStrNull("result", CommonConstant.SUCCESS);
             List<DataModel> result = mainMapper.zabbixGraph();
+            List<DataModel> status_nm = mainMapper.zabbixGraphStaus_nm();
+
             resultMap.put("chartData", result);
+            resultMap.put("status_nm", status_nm);
             logger.info("getZabbixGraph end - {}", resultMap);
         } catch (Exception e) {
             logger.error("GRAPH SEFILCARE 에러 발생 - {}", e.getMessage());
