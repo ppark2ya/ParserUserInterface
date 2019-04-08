@@ -63,7 +63,7 @@ class Synthesis extends Component {
         const { chartData, options } = this.state;
         return (
             <div style={{width: "80%"}}>
-                <Bar data={chartData} width={300} height={100} options={options} />
+                <Bar data={chartData} width={300} height={160} options={options} />
             </div>
         );
     }

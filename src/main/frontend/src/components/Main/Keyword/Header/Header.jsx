@@ -4,13 +4,13 @@ import HeaderItem from './HeaderItem';
 
 class Header extends PureComponent {
     componentDidMount() {
-        const { location: {pathname}, history } = this.props;
+        const { location: {pathname}, history, activeMenu } = this.props;
         
         // 로그인 직후 /main 경로로 redirect되면 home component를 보여준다.
         if(pathname === '/main/setting/keywordPage') {
             history.push('/main/setting/keywordPage/checkserver');
         } else { // 새로고침시에도 path따라 css를 바꿔준다.
-            this.props.activeMenu(undefined, pathname);
+            activeMenu(undefined, pathname);
         }
     }
 

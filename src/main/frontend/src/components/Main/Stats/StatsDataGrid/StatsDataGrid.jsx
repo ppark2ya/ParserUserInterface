@@ -15,7 +15,7 @@ import { default as TablePaginationActionsWrapped } from './TablePaginationActio
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 2,
   },
   table: {
     minWidth: 500,
