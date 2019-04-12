@@ -328,7 +328,7 @@
             FROM 
                 TB_ERROR_STATUS
             WHERE 
-                1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
             GROUP BY 
                 STATUS_NM
             ) a 
@@ -357,7 +357,7 @@
                 FROM 
                     TB_ERROR_STATUS
                 WHERE 
-                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
                 GROUP BY 
                     STATUS_NM
             ) a 
@@ -385,7 +385,7 @@
                     DATE_FORMAT((CURDATE()-INTERVAL 2 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
                 FROM TB_ERROR_STATUS
                 WHERE 
-                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
                 GROUP BY 
                     STATUS_NM
                 ) a 
@@ -413,14 +413,14 @@
                     DATE_FORMAT((CURDATE()-INTERVAL 3 DAY),'%Y-%m-%d') AS UPD_DT, STATUS_NM AS STATUS_NM, 0 AS CNT
                 FROM TB_ERROR_STATUS
                 WHERE 
-                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
                 GROUP BY 
                     STATUS_NM
             ) a 
             GROUP BY 
                 a.status_nm
             UNION ALL 
-            SELECCT
+            SELECT
                 a.UPD_DT as day,
                 a.status_nm,
                 a.cnt as count 
@@ -439,7 +439,7 @@
                 FROM 
                     TB_ERROR_STATUS
                 WHERE
-                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
                 GROUP BY 
                     STATUS_NM
             ) a 
@@ -469,7 +469,7 @@
                 FROM 
                     TB_ERROR_STATUS
                 WHERE 
-                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
                 GROUP BY 
                     STATUS_NM
             ) a 
@@ -499,17 +499,17 @@
                 FROM 
                     TB_ERROR_STATUS
                 WHERE 
-                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -6 day)
+                    1=1 AND UPD_DT > DATE_ADD(now(),INTERVAL -7 day)
                 GROUP BY STATUS_NM
             ) a 
-            GROUP BY a.status_nm
+            GROUP BY a.status_nm order by status_nm desc, day asc
     </select>
 
     <select id="zabbixGraphStaus_nm" resultType="com.senier.ui.model.DataModel">
         SELECT STATUS_NM 
         FROM TB_ERROR_STATUS 
-        WHERE UPD_DT > DATE_ADD(now(),INTERVAL -6 day) 
-        GROUP BY STATUS_NM
+        WHERE UPD_DT > DATE_ADD(now(),INTERVAL -7 day) 
+        GROUP BY STATUS_NM order by status_nm desc
     </select>
 
     <select id="getKeywordList" parameterType="com.senier.ui.model.DataModel" resultType="com.senier.ui.model.DataModel">
