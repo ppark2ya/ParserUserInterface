@@ -88,18 +88,33 @@ class Zabbix extends Component {
           for (var i = 0; i < 7; i++) {
             lableDay[i] = chartData[i].day;
           }
+        } else {
+          this.data = {
+            labels: ["데이터 없음"],
+            datasets: [
+              {
+                label: "일 별 발생 빈도",
+                backgroundColor: "rgb(0,138,230)",
+                borderColor: "rgb(0,138,230)",
+                borderWidth: 1,
+                hoverBackgroundColor: "rgb(0,138,230)",
+                hoverBorderColor: "rgb(0,138,230)",
+                data: ["0"]
+              }
+            ]
+          };
         }
 
-        this.setState(
-          produce(draft => {
-            draft.datasets = datasets;
-            draft.data = {};
-          })
-        );
         this.data = {
           labels: lableDay,
           datasets: datasets
         };
+        this.setState(
+          produce(draft => {
+            draft.datasets = datasets;
+            draft.data = data;
+          })
+        );
       } else {
         console.error(response);
         alert(message);
