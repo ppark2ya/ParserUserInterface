@@ -9,12 +9,8 @@ import com.senier.ui.service.MainService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -313,7 +309,6 @@ public class MainServiceImpl implements MainService {
     public DataModel getCriticalServerCount(DataModel params){
         DataModel resultMap = new DataModel();
         List<DataModel> resultList = new ArrayList<>();
-        Iterator<DataModel> cdataLst = null;
 
         try {
             List<String> getDate = mainMapper.getBeforeThreeDate(); // 현재일~3일전 날짜 get
