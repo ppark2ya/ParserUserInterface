@@ -94,15 +94,15 @@ class Zabbix extends Component {
           };
         } else {
           this.data = {
-            labels: ["데이터 없음"],
+            labels: [""],
             datasets: [
               {
-                label: "일 별 발생 빈도",
-                backgroundColor: "rgb(0,138,230)",
-                borderColor: "rgb(0,138,230)",
+                label: "데이터 없음",
+                backgroundColor: "rgb(255,255,255)",
+                borderColor: "rgb(255,255,255)",
                 borderWidth: 1,
-                hoverBackgroundColor: "rgb(0,138,230)",
-                hoverBorderColor: "rgb(0,138,230)",
+                hoverBackgroundColor: "rgb(255,255,255)",
+                hoverBorderColor: "rgb(255,255,255)",
                 data: ["0"]
               }
             ]
