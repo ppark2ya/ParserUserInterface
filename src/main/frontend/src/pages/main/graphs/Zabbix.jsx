@@ -88,6 +88,10 @@ class Zabbix extends Component {
           for (var i = 0; i < 7; i++) {
             lableDay[i] = chartData[i].day;
           }
+          this.data = {
+            labels: lableDay,
+            datasets: datasets
+          };
         } else {
           this.data = {
             labels: ["데이터 없음"],
@@ -104,11 +108,6 @@ class Zabbix extends Component {
             ]
           };
         }
-
-        this.data = {
-          labels: lableDay,
-          datasets: datasets
-        };
         this.setState(
           produce(draft => {
             draft.datasets = datasets;
