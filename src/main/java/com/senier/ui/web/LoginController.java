@@ -50,4 +50,12 @@ public class LoginController {
         return resultMap;
     }
 
+    @PostMapping("/auth/signUp")
+    public DataModel signUp(@RequestBody DataModel dm) {
+        logger.info("signUp Params - {}", dm);
+        DataModel resultMap = loginService.signUp(dm);
+        logger.info("signUp Result - {}", resultMap);
+
+        return resultMap;
+    }
 }

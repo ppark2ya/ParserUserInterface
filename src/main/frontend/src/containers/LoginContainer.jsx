@@ -60,6 +60,11 @@ class LoginContainer extends Component {
         }
     }
 
+    toggleOpen = () => {
+        const { LoginActions } = this.props;
+        LoginActions.toggleOpen();
+    }
+
     // 입력창 clear
     setClearForm = () => {
         let { id, pw } = document.getElementsByTagName('input');
@@ -70,9 +75,9 @@ class LoginContainer extends Component {
     }
 
     render() {
-        const { handleKeyPress, handleClick, handleChange} = this;
+        const { handleKeyPress, handleClick, handleChange, toggleOpen } = this;
         return (
-            <LoginTemplate onKeyPress={handleKeyPress} onClick={handleClick} onChange={handleChange}/>
+            <LoginTemplate onKeyPress={handleKeyPress} onClick={handleClick} onChange={handleChange} toggleOpen={toggleOpen} open={this.props.open}/>
         );
     }
 }
@@ -81,6 +86,7 @@ export default connect(
     (state) => ({
         id: state.login.id,
         pw: state.login.pw,
+        open: state.login.open,
         result: state.login.data.result
     }),
     (dispatch) => ({

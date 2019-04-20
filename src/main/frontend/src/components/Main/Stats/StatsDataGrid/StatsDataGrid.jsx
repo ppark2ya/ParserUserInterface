@@ -68,7 +68,7 @@ class StatsDataGrid extends PureComponent {
                       open={row.open} 
                       toggleOpen={() => toggleOpen(row.no)}>
                         {row.title}
-                      </StatsModal>
+                    </StatsModal>
                   </TableCell>
                   <TableCell align="center">{row.status}</TableCell>
                 </TableRow>

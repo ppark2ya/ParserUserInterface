@@ -20,6 +20,16 @@ export const getUserInfoApi = (uid) => {
     });
 }
 
+export const signUpApi = ({id, pw, name, tel, email}) => {
+    return axios.post(`/auth/signUp`, {
+        uid: id,
+        pw,
+        name,
+        tel,
+        email
+    });
+}
+
 export const getHomeDashboard = ({uid, auth}) => {
     return axios.get(`/home/dashboard`, { params: {uid, auth} });
 }

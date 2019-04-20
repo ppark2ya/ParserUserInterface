@@ -31,4 +31,9 @@
         WHERE UID = #{uid}
     </update>
 
+    <insert id="signUp" parameterType="com.senier.ui.model.DataModel">
+        INSERT INTO TB_USER (UID, PASSWD, AUTH, TEL_NUM, NAME, EMAIL, USE_CL, REG_DT, REG_TM, UPD_DT, UPD_TM)
+        VALUES(#{uid}, #{pw}, '32', #{tel}, #{name}, #{email}, '1', DATE_FORMAT(NOW(), '%Y%m%d'), DATE_FORMAT(NOW(), '%H%i%s'), DATE_FORMAT(NOW(), '%Y%m%d'), DATE_FORMAT(NOW(), '%H%i%s'))
+    </insert>
+
 </mapper>

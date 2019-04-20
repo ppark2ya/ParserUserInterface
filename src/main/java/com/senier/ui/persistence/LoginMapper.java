@@ -6,4 +6,5 @@ public interface LoginMapper {
     public int loginProc(DataModel dm);
     public DataModel getUserInfo(DataModel dm);
     public int updateUser(DataModel dm);
+    public int signUp(DataModel dm);
 }

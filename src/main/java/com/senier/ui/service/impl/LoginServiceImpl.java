@@ -95,4 +95,22 @@ public class LoginServiceImpl implements LoginService {
         }
         return resultMap;
     }
+
+    @Override
+    public DataModel signUp(DataModel dm) {
+        DataModel resultMap = new DataModel(); 
+        try {
+            int cnt = loginMapper.signUp(dm);
+
+            if(cnt > 0) {
+                resultMap.putStrNull("result", CommonConstant.SUCCESS);
+            } else {
+                resultMap.putStrNull("result", CommonConstant.FAIL);
+            }
+        } catch(Exception e) {
+            logger.error("회원가입 에러 발생 - {}" , e.getMessage());
+            resultMap.putStrNull("result", CommonConstant.FAIL);
+        }
+        return resultMap;
+    }
 }

@@ -7,7 +7,8 @@ const baseURL = (() => {
     if (process.env.APP_ENV === 'server' && process.env.LOCAL === 'true') {
     return 'http://localhost';
     }
-    return 'https://146.148.76.237';
+    // return 'https://146.148.76.237';
+    return 'http://localhost';
 })();
 
 const defaultClient = axios.create({
