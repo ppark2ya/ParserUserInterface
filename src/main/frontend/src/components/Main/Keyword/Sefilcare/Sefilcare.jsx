@@ -1,7 +1,7 @@
 import React from 'react';
 import KeywordDataTable from '../KeywordDataTable';
 
-const Sefilcare = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage, toggleUsage }) => {
+const Sefilcare = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage, toggleUsage, sortTable }) => {
     return (
         <KeywordDataTable
             rows={rows}
@@ -10,6 +10,7 @@ const Sefilcare = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRows
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             toggleUsage={toggleUsage}
+            sortTable={sortTable}
         />
     );
 }

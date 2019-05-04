@@ -522,7 +522,7 @@
         WHERE 
             EXCEPTION_ATTR LIKE '%CRITICAL%' AND SERVICE_CD IN (#{ZABBIX}, #{POSTMAN}, #{SEFILCARE}, #{CHECK_SERVER})
         ORDER BY
-            serviceCd
+            serviceCd, useCl
     </select>
 
     <update id="toggleUsage" parameterType="com.senier.ui.model.DataModel">

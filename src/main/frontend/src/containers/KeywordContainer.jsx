@@ -87,6 +87,27 @@ class KeywordContainer extends PureComponent {
         }
     }
 
+    sortTable = (rows) => {
+        const { KeywordActions } = this.props;
+        KeywordActions.compareFunction(rows);
+        // 사용 중이 위 일때
+        // if(rows[0].useCl === "1") {
+        //     KeywordActions.compareFunction(rows);
+        // } else {
+        //     KeywordActions.compareFunction(rows);
+        // }
+    }
+
+    // compareFunction = (rows, order) => {
+    //     let sortedRows;
+    //     if(order) {
+    //         sortedRows = [...rows.sort((a, b) => a.useCl < b.useCl ? -1 : a.useCl < b.useCl ? 1: 0)];
+    //     } else {
+    //         sortedRows = [...rows.sort((a, b) => a.useCl > b.useCl ? -1 : a.useCl > b.useCl ? 1: 0)];
+    //     }
+    //     return sortedRows;
+    // }
+
     componentDidMount = async () => {
         const { location: {pathname}, history } = this.props;
         const { KeywordActions } = this.props;
@@ -109,6 +130,7 @@ class KeywordContainer extends PureComponent {
             toggleUsage,
             activeMenu,
             handleActive,
+            sortTable,
             state : { navList },
             props : { checkServerList, sefilcareList, zabbixList, postmanList, page, rowsPerPage }
         } = this;
@@ -130,6 +152,7 @@ class KeywordContainer extends PureComponent {
                                 handleChangePage={handleChangePage} 
                                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                                 toggleUsage={toggleUsage}
+                                sortTable={sortTable}
                                 page={page}
                                 rowsPerPage={rowsPerPage}
                             /> 
@@ -144,6 +167,7 @@ class KeywordContainer extends PureComponent {
                                 handleChangePage={handleChangePage} 
                                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                                 toggleUsage={toggleUsage}
+                                sortTable={sortTable}
                                 page={page}
                                 rowsPerPage={rowsPerPage}
                             /> 
@@ -158,6 +182,7 @@ class KeywordContainer extends PureComponent {
                                 handleChangePage={handleChangePage} 
                                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                                 toggleUsage={toggleUsage}
+                                sortTable={sortTable}
                                 page={page}
                                 rowsPerPage={rowsPerPage}
                             /> 
@@ -172,6 +197,7 @@ class KeywordContainer extends PureComponent {
                                 handleChangePage={handleChangePage} 
                                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                                 toggleUsage={toggleUsage}
+                                sortTable={sortTable}
                                 page={page}
                                 rowsPerPage={rowsPerPage}
                             /> 

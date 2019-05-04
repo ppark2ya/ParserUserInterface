@@ -27,7 +27,8 @@ const styles = theme => ({
     width: '80%'
   },
   ynWidth: {
-    width: '20%'
+    width: '20%',
+    cursor: 'pointer',
   },
   pagination: {
     width: '65%',
@@ -49,7 +50,7 @@ const CustomTableCell = withStyles(theme => ({
 
 class KeywordDataTable extends PureComponent {
   render() {
-    const { classes, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage, toggleUsage } = this.props;
+    const { classes, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage, toggleUsage, sortTable } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
@@ -59,7 +60,7 @@ class KeywordDataTable extends PureComponent {
             <TableHead>
                 <TableRow>
                     <CustomTableCell className={classes.keyWidth} align="center">Keyword</CustomTableCell>
-                    <CustomTableCell className={classes.ynWidth} align="center">Y / N</CustomTableCell>
+                    <CustomTableCell className={classes.ynWidth} align="center" onClick={() => sortTable(rows)}>Y / N</CustomTableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -67,7 +68,10 @@ class KeywordDataTable extends PureComponent {
                 <TableRow key={idx}>
                   <TableCell align="center">{row.keyword}</TableCell>
                   <TableCell align="center">
-                    <Button color={(row.useCl === '1')? 'primary' : 'secondary'} className={classes.button} onClick={() => toggleUsage(row.keyword, row.serviceCd, row.useCl)}>
+                    <Button 
+                      color={(row.useCl === '1')? 'primary' : 'secondary'} 
+                      className={classes.button} 
+                      onClick={() => toggleUsage(row.keyword, row.serviceCd, row.useCl)}>
                       {(row.useCl === '1')? '사용 중' : '미사용 중'}
                     </Button>
                   </TableCell>

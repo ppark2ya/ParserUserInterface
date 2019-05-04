@@ -7,11 +7,13 @@ const SET_PAGE= 'keyword/SET_PAGE';
 const SET_ROWS_PER_PAGE= 'keyword/SET_ROWS_PER_PAGE';
 const GET_KEYWORDLIST = 'keyword/GET_KEYWORDLIST';
 const TOGGLE_USAGE = 'keyword/TOGGLE_USAGE';
+const SORT_ROWS = 'keyword/SORT_ROWS';
 
 export const setPage = createAction(SET_PAGE);
 export const setRowsPerPage = createAction(SET_ROWS_PER_PAGE);
 export const getKeywordList = createAction(GET_KEYWORDLIST, getKeywordListApi);
 export const toggleUsage = createAction(TOGGLE_USAGE, toggleUsageApi);
+export const compareFunction = createAction(SORT_ROWS);
 
 const initialState = {
     data: {
@@ -36,6 +38,28 @@ const reducer = handleActions({
             const { page, rowsPerPage } = payload;
             draft.data.page = page;
             draft.data.rowsPerPage = rowsPerPage;
+        });
+    },
+    [SORT_ROWS]: (state, { payload }) => {
+        return produce(state, draft => {
+            const serviceCd = payload[0].serviceCd;
+            
+            let sortedRows;
+            if(payload[0].useCl === "1") {
+                sortedRows = [...payload.sort((a, b) => a.useCl < b.useCl ? -1 : a.useCl < b.useCl ? 1: 0)];
+            } else {
+                sortedRows = [...payload.sort((a, b) => a.useCl > b.useCl ? -1 : a.useCl > b.useCl ? 1: 0)];
+            }
+            
+            if(serviceCd === "00") {
+                draft.data.zabbixList = sortedRows;
+            } else if(serviceCd === "01") {
+                draft.data.postmanList = sortedRows;
+            } else if(serviceCd === "02") {
+                draft.data.sefilcareList = sortedRows;
+            } else if(serviceCd === "03") {
+                draft.data.checkServerList = sortedRows;
+            }
         });
     },
 }, initialState);

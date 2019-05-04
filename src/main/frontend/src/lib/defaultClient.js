@@ -5,10 +5,9 @@ axios.defaults.withCredentials = true;
 const baseURL = (() => {
     if (process.env.NODE_ENV === 'development') return 'http://localhost';
     if (process.env.APP_ENV === 'server' && process.env.LOCAL === 'true') {
-    return 'http://localhost';
+    	return 'http://104.198.86.245:8092';
     }
-    // return 'https://146.148.76.237';
-    return 'http://localhost';
+    return 'http://104.198.86.245:8092';
 })();
 
 const defaultClient = axios.create({

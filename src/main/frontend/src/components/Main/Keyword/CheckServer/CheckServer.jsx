@@ -1,7 +1,7 @@
 import React from 'react';
 import KeywordDataTable from '../KeywordDataTable';
 
-const CheckServer = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage, toggleUsage }) => {
+const CheckServer = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage, toggleUsage, sortTable }) => {
     return (
         <div>
             <KeywordDataTable
@@ -11,6 +11,7 @@ const CheckServer = ({ rows, page, rowsPerPage, handleChangePage, handleChangeRo
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                 toggleUsage={toggleUsage}
+                sortTable={sortTable}
             />
         </div>
     );
