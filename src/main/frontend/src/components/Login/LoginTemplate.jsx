@@ -37,7 +37,7 @@ const LoginTemplate = ({ onKeyPress, onClick, onChange, toggleOpen }) => {
     return (
         <section>
             <Container>
-                <MainTitle>Error Message Mediator</MainTitle>
+                <MainTitle>Message Filtering System</MainTitle>
                 <LoginBox onKeyPress={onKeyPress} onClick={onClick} onChange={onChange} toggleOpen={toggleOpen}></LoginBox>
             </Container>
             <Footer>
