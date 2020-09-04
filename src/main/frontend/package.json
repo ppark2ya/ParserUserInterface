@@ -15,7 +15,7 @@
     "include-media": "^1.4.9",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "open-color": "^1.6.3",
     "react": "^16.8.2",
     "react-chartjs-2": "^2.7.4",
