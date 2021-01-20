@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "dependencies": "^0.0.1",
-    "immer": "^2.1.0",
+    "immer": "^8.0.1",
     "include-media": "^1.4.9",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
