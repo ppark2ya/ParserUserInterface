@@ -14,7 +14,7 @@
     "immer": "^2.1.0",
     "include-media": "^1.4.9",
     "material-ui-pickers": "^2.2.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "node-sass": "^4.11.0",
     "open-color": "^1.6.3",
     "react": "^16.8.2",
